@@ -1,0 +1,2670 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Pop the Balloons — Huruf | Letter Balloon Pop</title>
+  
+  <!-- Quicksand Font for clean, rounded preschool typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --font-party: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --party-cream: #FFF9F2;
+      --party-pink: #FF6B97;
+      --party-rose: #FF4D80;
+      --party-coral: #FFA07A;
+      --party-yellow: #FFD152;
+      --party-purple: #B28DFF;
+      --party-mint: #62E3B8;
+      --party-blue: #64C4ED;
+      --party-shadow: rgba(85, 37, 107, 0.18);
+      --btn-party-shadow: 0 8px 0 #E23D70, 0 14px 22px rgba(226, 61, 112, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-party);
+      background-color: #FEDFEA;
+      color: #38254A;
+    }
+
+    /* Prevent drag ghost images */
+    img, svg {
+      -webkit-user-drag: none;
+      user-drag: none;
+    }
+
+    /* 3D Toy Button Aesthetic */
+    .party-btn {
+      position: relative;
+      font-weight: 800;
+      border-radius: 9999px;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.02em;
+      border: 3px solid #FFF;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+
+    .party-btn:active {
+      transform: translateY(4px) scale(0.98);
+      box-shadow: 0 4px 0 rgba(0,0,0,0.2) !important;
+    }
+
+    .btn-pink {
+      background: linear-gradient(180deg, #FF7EB3 0%, #FF3D77 100%);
+      color: #FFF;
+      box-shadow: 0 6px 0 #B8184C, 0 12px 18px rgba(184, 24, 76, 0.35);
+    }
+
+    .btn-yellow {
+      background: linear-gradient(180deg, #FFE873 0%, #FFB703 100%);
+      color: #5D3700;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.7);
+      box-shadow: 0 6px 0 #C47F00, 0 12px 18px rgba(196, 127, 0, 0.35);
+    }
+
+    .btn-mint {
+      background: linear-gradient(180deg, #74F2CE 0%, #20C997 100%);
+      color: #044E39;
+      text-shadow: 0 1px 1px rgba(255,255,255,0.6);
+      box-shadow: 0 6px 0 #118A66, 0 12px 18px rgba(17, 138, 102, 0.35);
+    }
+
+    .btn-purple {
+      background: linear-gradient(180deg, #CBB2FE 0%, #8A5BF5 100%);
+      color: #FFF;
+      box-shadow: 0 6px 0 #5E32C2, 0 12px 18px rgba(94, 50, 194, 0.35);
+    }
+
+    .btn-blue {
+      background: linear-gradient(180deg, #82DBFF 0%, #29A8EC 100%);
+      color: #FFF;
+      box-shadow: 0 6px 0 #1377AE, 0 12px 18px rgba(19, 119, 174, 0.35);
+    }
+
+    .btn-white {
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0EEFB 100%);
+      color: #57336D;
+      text-shadow: none;
+      box-shadow: 0 5px 0 #C9C3E3, 0 8px 15px rgba(0,0,0,0.08);
+      border-color: #E2DCF7;
+    }
+
+    /* Modal / Card Party Diorama Surfaces */
+    .party-panel {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 36px;
+      border: 4px solid #FFFFFF;
+      box-shadow: 0 20px 45px rgba(85, 37, 107, 0.22), 0 6px 0 rgba(255, 182, 193, 0.4);
+    }
+
+    .party-card-inner {
+      background: linear-gradient(180deg, #FFF9FC 0%, #FFF0F6 100%);
+      border-radius: 26px;
+      border: 2px dashed #FFB8D2;
+    }
+
+    /* Smooth Floating Balloon Motion */
+    @keyframes gentleFloatSlow {
+      0% {
+        transform: translateY(0px) translateX(0px);
+      }
+      50% {
+        transform: translateY(-14px) translateX(7px);
+      }
+      100% {
+        transform: translateY(0px) translateX(0px);
+      }
+    }
+
+    @keyframes gentleFloatAlt {
+      0% {
+        transform: translateY(0px) translateX(0px);
+      }
+      50% {
+        transform: translateY(-16px) translateX(-8px);
+      }
+      100% {
+        transform: translateY(0px) translateX(0px);
+      }
+    }
+
+    .balloon-float-1 {
+      animation: gentleFloatSlow 4.8s ease-in-out infinite;
+    }
+
+    .balloon-float-2 {
+      animation: gentleFloatAlt 5.4s ease-in-out infinite;
+    }
+
+    /* Gentle Wobble for feedback */
+    @keyframes friendlyWobble {
+      0%, 100% { transform: translateX(0) rotate(0deg); }
+      20% { transform: translateX(-9px) rotate(-3deg); }
+      40% { transform: translateX(8px) rotate(3deg); }
+      60% { transform: translateX(-5px) rotate(-1.5deg); }
+      80% { transform: translateX(4px) rotate(1.5deg); }
+    }
+
+    .wobble-friendly {
+      animation: friendlyWobble 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    /* Pop Animation */
+    @keyframes balloonPopBurst {
+      0% { transform: scale(1); opacity: 1; }
+      40% { transform: scale(1.35); opacity: 0.9; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    .balloon-popping {
+      animation: balloonPopBurst 0.35s ease-out forwards;
+      pointer-events: none;
+    }
+
+    /* Sparkle Particle Animations */
+    @keyframes particleFly {
+      0% { transform: translate(0, 0) scale(0.6) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(var(--tr)); opacity: 0; }
+    }
+
+    .particle-star {
+      position: absolute;
+      pointer-events: none;
+      animation: particleFly 0.85s cubic-bezier(0.12, 0.8, 0.32, 1) forwards;
+    }
+
+    /* Pulse Glow */
+    @keyframes partyPulseGlow {
+      0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 107, 151, 0.4)); }
+      50% { filter: drop-shadow(0 0 16px rgba(255, 215, 0, 0.9)); }
+    }
+
+    .glow-pulse {
+      animation: partyPulseGlow 1.8s infinite ease-in-out;
+    }
+
+    /* Hide scrollbars completely */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body class="w-full h-full relative select-none overflow-hidden text-slate-800">
+
+  <div id="diorama-bg-container" class="absolute inset-0 w-full h-full pointer-events-none z-0">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Soft Wall & Floor Gradients -->
+        <linearGradient id="wallGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFDFEB"/>
+          <stop offset="65%" stop-color="#FFF0F5"/>
+          <stop offset="100%" stop-color="#FFE0EC"/>
+        </linearGradient>
+        <linearGradient id="floorGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFE2CE"/>
+          <stop offset="35%" stop-color="#FFD6BC"/>
+          <stop offset="100%" stop-color="#F7C6A6"/>
+        </linearGradient>
+        <linearGradient id="windowSky" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#BEE8FF"/>
+          <stop offset="70%" stop-color="#DDF3FF"/>
+          <stop offset="100%" stop-color="#FFF8E7"/>
+        </linearGradient>
+
+        <!-- 3D Table Top & Leg Shading -->
+        <linearGradient id="tableTopGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="70%" stop-color="#FFF4DE"/>
+          <stop offset="100%" stop-color="#F7DFB3"/>
+        </linearGradient>
+        <linearGradient id="tableTrimGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FF8DA9"/>
+          <stop offset="100%" stop-color="#EB547C"/>
+        </linearGradient>
+        <linearGradient id="tableLegGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#E5BE94"/>
+          <stop offset="50%" stop-color="#FCEFD8"/>
+          <stop offset="100%" stop-color="#D1A77A"/>
+        </linearGradient>
+
+        <!-- Dimensional Cake Layer Gradients -->
+        <linearGradient id="cakeBase" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#FF8EAE"/>
+          <stop offset="45%" stop-color="#FFBDD0"/>
+          <stop offset="100%" stop-color="#E25C84"/>
+        </linearGradient>
+        <linearGradient id="cakeCream" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFFFFF"/>
+          <stop offset="100%" stop-color="#FFF3E0"/>
+        </linearGradient>
+        <linearGradient id="cakeTop" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#69DDB7"/>
+          <stop offset="50%" stop-color="#A2F5DA"/>
+          <stop offset="100%" stop-color="#46B894"/>
+        </linearGradient>
+
+        <!-- 3D Gift Box Gradients -->
+        <linearGradient id="giftBlueFront" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#60C8FA"/>
+          <stop offset="100%" stop-color="#2D98D4"/>
+        </linearGradient>
+        <linearGradient id="giftBlueSide" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2889C2"/>
+          <stop offset="100%" stop-color="#1B6D9E"/>
+        </linearGradient>
+        <linearGradient id="giftBlueTop" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#9DE0FF"/>
+          <stop offset="100%" stop-color="#73D0FC"/>
+        </linearGradient>
+
+        <linearGradient id="giftYellowFront" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFD65C"/>
+          <stop offset="100%" stop-color="#F2A900"/>
+        </linearGradient>
+        <linearGradient id="giftYellowSide" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#DB9600"/>
+          <stop offset="100%" stop-color="#BA7E00"/>
+        </linearGradient>
+        <linearGradient id="giftYellowTop" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FFE799"/>
+          <stop offset="100%" stop-color="#FFDA73"/>
+        </linearGradient>
+
+        <linearGradient id="giftPurpleFront" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#B992FF"/>
+          <stop offset="100%" stop-color="#8B57F5"/>
+        </linearGradient>
+        <linearGradient id="giftPurpleSide" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#7B49DE"/>
+          <stop offset="100%" stop-color="#6134B8"/>
+        </linearGradient>
+        <linearGradient id="giftPurpleTop" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#DAC7FF"/>
+          <stop offset="100%" stop-color="#C2A4FF"/>
+        </linearGradient>
+
+        <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#4B205C" flood-opacity="0.16"/>
+        </filter>
+        <filter id="contactShadow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0.35  0 0 0 0 0.18  0 0 0 0 0.42  0 0 0 0.28 0"/>
+        </filter>
+      </defs>
+
+      <!-- Room Back Wall -->
+      <rect x="0" y="0" width="1440" height="660" fill="url(#wallGrad)"/>
+
+      <!-- Festive Pastel Polka Dots on Wall -->
+      <g opacity="0.28">
+        <circle cx="90" cy="110" r="16" fill="#FF77A9"/>
+        <circle cx="210" cy="70" r="12" fill="#FFC93C"/>
+        <circle cx="340" cy="130" r="18" fill="#66D7D1"/>
+        <circle cx="480" cy="80" r="14" fill="#B28DFF"/>
+        <circle cx="620" cy="120" r="16" fill="#FFAA85"/>
+        <circle cx="760" cy="70" r="13" fill="#FF77A9"/>
+        <circle cx="900" cy="130" r="18" fill="#70D6FF"/>
+        <circle cx="1040" cy="90" r="15" fill="#FFC93C"/>
+        <circle cx="1180" cy="130" r="17" fill="#66D7D1"/>
+        <circle cx="1320" cy="80" r="14" fill="#B28DFF"/>
+      </g>
+
+      <!-- Isometric Floor -->
+      <polygon points="0,660 1440,660 1440,900 0,900" fill="url(#floorGrad)"/>
+
+      <!-- Floor Planks with 3D Depth Lines -->
+      <g stroke="#E8B08F" stroke-width="2.5" opacity="0.6">
+        <line x1="0" y1="710" x2="1440" y2="710"/>
+        <line x1="0" y1="770" x2="1440" y2="770"/>
+        <line x1="0" y1="835" x2="1440" y2="835"/>
+        <!-- Vertical Staggered Planks -->
+        <line x1="280" y1="660" x2="280" y2="710"/>
+        <line x1="720" y1="660" x2="720" y2="710"/>
+        <line x1="1160" y1="660" x2="1160" y2="710"/>
+        <line x1="480" y1="710" x2="480" y2="770"/>
+        <line x1="960" y1="710" x2="960" y2="770"/>
+        <line x1="220" y1="770" x2="220" y2="835"/>
+        <line x1="680" y1="770" x2="680" y2="835"/>
+        <line x1="1200" y1="770" x2="1200" y2="835"/>
+      </g>
+
+      <!-- Soft Floor Contact Baseboard Trim -->
+      <rect x="0" y="650" width="1440" height="15" fill="#FCE4D6" filter="url(#softShadow)"/>
+
+      <!-- Left Arched Window showing sunny sky and animated clouds -->
+      <g transform="translate(90, 80)">
+        <ellipse cx="110" cy="110" rx="100" ry="100" fill="#E2F2FC"/>
+        <rect x="10" y="110" width="200" height="240" fill="#E2F2FC"/>
+        <!-- Window Interior Frame -->
+        <path d="M 25 110 A 85 85 0 0 1 195 110 L 195 335 L 25 335 Z" fill="url(#windowSky)"/>
+        <!-- Distant Tree & Sun -->
+        <circle cx="160" cy="90" r="28" fill="#FFF176" opacity="0.8"/>
+        <!-- Gentle Moving Cloud Inside Window -->
+        <g fill="#FFFFFF" opacity="0.85">
+          <ellipse cx="80" cy="130" rx="28" ry="16"/>
+          <ellipse cx="105" cy="125" rx="22" ry="14"/>
+          <ellipse cx="65" cy="132" rx="18" ry="12"/>
+          <animateTransform attributeName="transform" type="translate" values="-30,0; 40,0; -30,0" dur="18s" repeatCount="indefinite"/>
+        </g>
+        <!-- Arched Window Frame with Depth -->
+        <path d="M 10 110 A 100 100 0 0 1 210 110 L 210 350 L 10 350 Z" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+        <line x1="110" y1="20" x2="110" y2="340" stroke="#FFFFFF" stroke-width="12"/>
+        <line x1="15" y1="200" x2="205" y2="200" stroke="#FFFFFF" stroke-width="12"/>
+        <!-- Soft Draped Curtain -->
+        <path d="M 0 50 Q 40 180 15 320 Q 35 325 50 310 Q 55 160 35 50 Z" fill="#FFA5BE" opacity="0.9"/>
+        <path d="M 220 50 Q 180 180 205 320 Q 185 325 170 310 Q 165 160 185 50 Z" fill="#FFA5BE" opacity="0.9"/>
+      </g>
+
+      <!-- Right Arched Window -->
+      <g transform="translate(1130, 80)">
+        <ellipse cx="110" cy="110" rx="100" ry="100" fill="#E2F2FC"/>
+        <rect x="10" y="110" width="200" height="240" fill="#E2F2FC"/>
+        <path d="M 25 110 A 85 85 0 0 1 195 110 L 195 335 L 25 335 Z" fill="url(#windowSky)"/>
+        <!-- Gentle Moving Cloud Inside Window -->
+        <g fill="#FFFFFF" opacity="0.85">
+          <ellipse cx="120" cy="120" rx="32" ry="18"/>
+          <ellipse cx="95" cy="116" rx="24" ry="15"/>
+          <ellipse cx="145" cy="124" rx="20" ry="13"/>
+          <animateTransform attributeName="transform" type="translate" values="30,0; -35,0; 30,0" dur="20s" repeatCount="indefinite"/>
+        </g>
+        <path d="M 10 110 A 100 100 0 0 1 210 110 L 210 350 L 10 350 Z" fill="none" stroke="#FFFFFF" stroke-width="16"/>
+        <line x1="110" y1="20" x2="110" y2="340" stroke="#FFFFFF" stroke-width="12"/>
+        <line x1="15" y1="200" x2="205" y2="200" stroke="#FFFFFF" stroke-width="12"/>
+        <path d="M 0 50 Q 40 180 15 320 Q 35 325 50 310 Q 55 160 35 50 Z" fill="#99DBFD" opacity="0.9"/>
+        <path d="M 220 50 Q 180 180 205 320 Q 185 325 170 310 Q 165 160 185 50 Z" fill="#99DBFD" opacity="0.9"/>
+      </g>
+
+      <!-- Party Bunting Top Row -->
+      <g>
+        <path d="M 40,40 Q 380,120 720,55 Q 1060,125 1400,45" fill="none" stroke="#E294B1" stroke-width="4"/>
+        <!-- Flags with animated sway -->
+        <g>
+          <polygon points="120,62 165,68 142,125" fill="#FF5E89"/>
+          <polygon points="210,77 255,83 232,140" fill="#FFD037"/>
+          <polygon points="300,90 345,95 322,152" fill="#58D68D"/>
+          <polygon points="390,95 435,97 412,154" fill="#69C9FF"/>
+          <polygon points="480,92 525,90 502,148" fill="#B388FF"/>
+          <polygon points="570,81 615,77 592,136" fill="#FF9A76"/>
+          <polygon points="660,68 705,62 682,122" fill="#FF5E89"/>
+          <polygon points="750,62 795,68 772,125" fill="#FFD037"/>
+          <polygon points="840,76 885,82 862,138" fill="#58D68D"/>
+          <polygon points="930,89 975,93 952,150" fill="#69C9FF"/>
+          <polygon points="1020,97 1065,97 1042,154" fill="#B388FF"/>
+          <polygon points="1110,91 1155,87 1132,145" fill="#FF9A76"/>
+          <polygon points="1200,79 1245,74 1222,132" fill="#FF5E89"/>
+          <polygon points="1290,65 1335,58 1312,118" fill="#FFD037"/>
+          <animateTransform attributeName="transform" type="rotate" values="-1 720 50; 1 720 50; -1 720 50" dur="4s" repeatCount="indefinite"/>
+        </g>
+      </g>
+
+      <!-- Hanging Fairy Party Lights with Soft Glow -->
+      <g>
+        <path d="M 60,95 Q 400,165 720,110 Q 1040,170 1380,100" fill="none" stroke="#6C4C7E" stroke-width="2.5" opacity="0.65"/>
+        <g fill="#FFE57F">
+          <circle cx="180" cy="120" r="10"><animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/></circle>
+          <circle cx="310" cy="144" r="10"><animate attributeName="opacity" values="1;0.6;1" dur="2.4s" repeatCount="indefinite"/></circle>
+          <circle cx="440" cy="154" r="10"><animate attributeName="opacity" values="0.8;1;0.8" dur="1.8s" repeatCount="indefinite"/></circle>
+          <circle cx="580" cy="144" r="10"><animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/></circle>
+          <circle cx="720" cy="122" r="10"><animate attributeName="opacity" values="1;0.7;1" dur="2.6s" repeatCount="indefinite"/></circle>
+          <circle cx="860" cy="145" r="10"><animate attributeName="opacity" values="0.7;1;0.7" dur="2.1s" repeatCount="indefinite"/></circle>
+          <circle cx="990" cy="154" r="10"><animate attributeName="opacity" values="1;0.6;1" dur="1.9s" repeatCount="indefinite"/></circle>
+          <circle cx="1120" cy="144" r="10"><animate attributeName="opacity" values="0.8;1;0.8" dur="2.3s" repeatCount="indefinite"/></circle>
+          <circle cx="1250" cy="122" r="10"><animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite"/></circle>
+        </g>
+      </g>
+
+      <!-- Shadow under Party Table -->
+      <ellipse cx="720" cy="745" rx="360" ry="42" fill="#D3A788" opacity="0.45"/>
+
+      <!-- 3D Table Legs -->
+      <rect x="420" y="630" width="34" height="110" rx="14" fill="url(#tableLegGrad)"/>
+      <rect x="986" y="630" width="34" height="110" rx="14" fill="url(#tableLegGrad)"/>
+      <rect x="480" y="650" width="28" height="90" rx="12" fill="url(#tableLegGrad)" opacity="0.9"/>
+      <rect x="932" y="650" width="28" height="90" rx="12" fill="url(#tableLegGrad)" opacity="0.9"/>
+
+      <!-- 3D Party Table Top Surface -->
+      <!-- Table Scallop Skirt -->
+      <path d="M 370 635 
+               Q 410 655 450 635 Q 490 655 530 635 Q 570 655 610 635 
+               Q 650 655 690 635 Q 730 655 770 635 Q 810 655 850 635 
+               Q 890 655 930 635 Q 970 655 1010 635 Q 1050 655 1070 635 
+               L 1070 620 L 370 620 Z" fill="url(#tableTrimGrad)"/>
+      <!-- Main Table Ellipse Edge (Thickness) -->
+      <ellipse cx="720" cy="625" rx="360" ry="38" fill="#F0CEAA"/>
+      <!-- Main Table Top Surface -->
+      <ellipse cx="720" cy="615" rx="360" ry="36" fill="url(#tableTopGrad)"/>
+      <!-- Table Runner Cloth -->
+      <path d="M 520 580 Q 720 600 920 580 L 920 635 Q 720 660 520 635 Z" fill="#FFE3EC"/>
+
+      <!-- Giant 3D Birthday Cake in Midground -->
+      <g transform="translate(720, 520)" filter="url(#softShadow)">
+        <!-- Cake Base Contact Shadow -->
+        <ellipse cx="0" cy="65" rx="130" ry="24" fill="#3D1845" opacity="0.2"/>
+
+        <!-- Cake Tier 1 (Bottom Tier) -->
+        <!-- Tier 1 Body (Dimensional Cylinder) -->
+        <path d="M -110 20 L -110 50 A 110 25 0 0 0 110 50 L 110 20 Z" fill="url(#cakeBase)"/>
+        <!-- Tier 1 Top Surface -->
+        <ellipse cx="0" cy="20" rx="110" ry="24" fill="#FFB0C7"/>
+        <!-- Tier 1 Cream Drips -->
+        <path d="M -110 20 
+                 Q -95 40 -80 23 Q -65 42 -50 22 Q -35 44 -20 22 
+                 Q -5 45 10 23 Q 25 43 40 22 Q 55 42 70 23 Q 85 41 95 24 Q 105 38 110 20" 
+                 fill="none" stroke="#FFFFFF" stroke-width="9" stroke-linecap="round"/>
+
+        <!-- Cake Tier 2 (Top Tier) -->
+        <!-- Tier 2 Body -->
+        <path d="M -75 -25 L -75 0 A 75 18 0 0 0 75 0 L 75 -25 Z" fill="url(#cakeTop)"/>
+        <!-- Tier 2 Top Surface -->
+        <ellipse cx="0" cy="-25" rx="75" ry="18" fill="#9BF0D6"/>
+        <!-- Tier 2 Cream Drips -->
+        <path d="M -75 -25 
+                 Q -60 -10 -45 -25 Q -30 -8 -15 -25 Q 0 -6 15 -25 
+                 Q 30 -8 45 -25 Q 60 -10 75 -25" 
+                 fill="none" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
+
+        <!-- Birthday Candles with Glowing Flame -->
+        <!-- Center Candle -->
+        <g transform="translate(0, -65)">
+          <rect x="-6" y="0" width="12" height="42" rx="4" fill="#FFDE59"/>
+          <!-- Stripes on candle -->
+          <line x1="-5" y1="12" x2="5" y2="8" stroke="#FF5E89" stroke-width="3"/>
+          <line x1="-5" y1="26" x2="5" y2="22" stroke="#FF5E89" stroke-width="3"/>
+          <!-- Wick -->
+          <line x1="0" y1="0" x2="0" y2="-6" stroke="#5C3B1E" stroke-width="2"/>
+          <!-- Flame with animated flicker -->
+          <ellipse cx="0" cy="-14" rx="7" ry="12" fill="#FF9A00">
+            <animate attributeName="ry" values="12;14;11;13;12" dur="0.8s" repeatCount="indefinite"/>
+            <animate attributeName="rx" values="7;6;8;6.5;7" dur="0.8s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="0" cy="-12" rx="4" ry="7" fill="#FFF275"/>
+        </g>
+
+        <!-- Left Candle -->
+        <g transform="translate(-40, -56)">
+          <rect x="-5" y="0" width="10" height="34" rx="3" fill="#69C9FF"/>
+          <line x1="-4" y1="10" x2="4" y2="7" stroke="#FFF" stroke-width="2.5"/>
+          <line x1="-4" y1="22" x2="4" y2="19" stroke="#FFF" stroke-width="2.5"/>
+          <line x1="0" y1="0" x2="0" y2="-5" stroke="#5C3B1E" stroke-width="1.8"/>
+          <ellipse cx="0" cy="-12" rx="6" ry="10" fill="#FF9A00">
+            <animate attributeName="ry" values="10;12;9;11;10" dur="0.7s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="0" cy="-10" rx="3" ry="5.5" fill="#FFF275"/>
+        </g>
+
+        <!-- Right Candle -->
+        <g transform="translate(40, -56)">
+          <rect x="-5" y="0" width="10" height="34" rx="3" fill="#FF94B8"/>
+          <line x1="-4" y1="10" x2="4" y2="7" stroke="#FFF" stroke-width="2.5"/>
+          <line x1="-4" y1="22" x2="4" y2="19" stroke="#FFF" stroke-width="2.5"/>
+          <line x1="0" y1="0" x2="0" y2="-5" stroke="#5C3B1E" stroke-width="1.8"/>
+          <ellipse cx="0" cy="-12" rx="6" ry="10" fill="#FF9A00">
+            <animate attributeName="ry" values="11;9;12;10;11" dur="0.75s" repeatCount="indefinite"/>
+          </ellipse>
+          <ellipse cx="0" cy="-10" rx="3" ry="5.5" fill="#FFF275"/>
+        </g>
+
+        <!-- Party Cake Cherries & Sprinkles -->
+        <circle cx="-50" cy="22" r="7" fill="#E60045"/>
+        <circle cx="-15" cy="28" r="7" fill="#E60045"/>
+        <circle cx="20" cy="27" r="7" fill="#E60045"/>
+        <circle cx="55" cy="22" r="7" fill="#E60045"/>
+      </g>
+
+      <!-- Table Treats: Cupcakes on Left & Right of Cake -->
+      <g transform="translate(510, 580)">
+        <polygon points="-16,22 -12,38 12,38 16,22" fill="#E8B382"/>
+        <path d="M -18 22 Q 0 -4 18 22 Z" fill="#FF69B4"/>
+        <circle cx="0" cy="3" r="5" fill="#FF1744"/>
+      </g>
+      <g transform="translate(930, 580)">
+        <polygon points="-16,22 -12,38 12,38 16,22" fill="#E8B382"/>
+        <path d="M -18 22 Q 0 -4 18 22 Z" fill="#5CE1E6"/>
+        <circle cx="0" cy="3" r="5" fill="#FF1744"/>
+      </g>
+
+      <!-- Cute Animal Party Guest 1 (Left Chair: Chibi Bunny Friend) -->
+      <g transform="translate(260, 550)" opacity="0.95">
+        <!-- Chair Back & Seat -->
+        <rect x="25" y="40" width="80" height="90" rx="16" fill="#FFD180" filter="url(#softShadow)"/>
+        <!-- Animal Body -->
+        <ellipse cx="65" cy="85" rx="34" ry="40" fill="#FFFFFF"/>
+        <!-- Ears -->
+        <ellipse cx="50" cy="25" rx="10" ry="24" fill="#FFFFFF"/>
+        <ellipse cx="50" cy="25" rx="5" ry="16" fill="#FFAEC9"/>
+        <ellipse cx="80" cy="25" rx="10" ry="24" fill="#FFFFFF"/>
+        <ellipse cx="80" cy="25" rx="5" ry="16" fill="#FFAEC9"/>
+        <!-- Face -->
+        <circle cx="55" cy="55" r="4" fill="#42253B"/>
+        <circle cx="75" cy="55" r="4" fill="#42253B"/>
+        <polygon points="65,62 62,59 68,59" fill="#FF70A6"/>
+        <path d="M 61 65 Q 65 69 69 65" fill="none" stroke="#42253B" stroke-width="2" stroke-linecap="round"/>
+        <!-- Party Hat with Pom-pom -->
+        <polygon points="56,38 74,38 65,5" fill="#FF5252"/>
+        <circle cx="65" cy="4" r="5" fill="#FFEB3B"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="3s" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Cute Animal Party Guest 2 (Right Chair: Chibi Kitten Friend) -->
+      <g transform="translate(1090, 550)" opacity="0.95">
+        <rect x="25" y="40" width="80" height="90" rx="16" fill="#B39DDB" filter="url(#softShadow)"/>
+        <ellipse cx="65" cy="85" rx="34" ry="40" fill="#FFF3E0"/>
+        <!-- Cat Ears -->
+        <polygon points="40,42 56,18 64,42" fill="#FFA726"/>
+        <polygon points="44,40 56,24 62,40" fill="#FFCC80"/>
+        <polygon points="66,42 74,18 90,42" fill="#FFA726"/>
+        <polygon points="68,40 74,24 86,40" fill="#FFCC80"/>
+        <!-- Face -->
+        <circle cx="55" cy="55" r="4" fill="#42253B"/>
+        <circle cx="75" cy="55" r="4" fill="#42253B"/>
+        <polygon points="65,61 62,58 68,58" fill="#FF70A6"/>
+        <path d="M 61 64 Q 65 68 69 64" fill="none" stroke="#42253B" stroke-width="2" stroke-linecap="round"/>
+        <!-- Party Hat -->
+        <polygon points="56,38 74,38 65,5" fill="#40C4FF"/>
+        <circle cx="65" cy="4" r="5" fill="#FFEB3B"/>
+        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="3.4s" repeatCount="indefinite"/>
+      </g>
+
+      <!-- Left Foreground Gift Stack -->
+      <g transform="translate(60, 680)" filter="url(#softShadow)">
+        <!-- Giant Blue Box with 3D Faces -->
+        <!-- Contact Shadow -->
+        <ellipse cx="80" cy="180" rx="90" ry="24" fill="#3D1845" opacity="0.3"/>
+        <!-- Front Face -->
+        <rect x="20" y="80" width="130" height="100" rx="8" fill="url(#giftBlueFront)"/>
+        <!-- Top Face (Perspective) -->
+        <polygon points="20,80 60,45 190,45 150,80" fill="url(#giftBlueTop)"/>
+        <!-- Side Face -->
+        <polygon points="150,80 190,45 190,145 150,180" fill="url(#giftBlueSide)"/>
+        <!-- Yellow Ribbon Bands -->
+        <rect x="75" y="80" width="22" height="100" fill="#FFD54F"/>
+        <polygon points="75,80 115,45 137,45 97,80" fill="#FFE082"/>
+        <!-- Big Gift Bow -->
+        <path d="M 100 45 C 75 15 50 35 90 45 C 65 30 75 10 100 45 C 125 10 135 30 110 45 C 150 35 125 15 100 45 Z" fill="#FFCA28"/>
+
+        <!-- Smaller Yellow Box Stacked on Top -->
+        <g transform="translate(30, -50)">
+          <rect x="20" y="55" width="80" height="65" rx="6" fill="url(#giftYellowFront)"/>
+          <polygon points="20,55 45,30 125,30 100,55" fill="url(#giftYellowTop)"/>
+          <polygon points="100,55 125,30 125,95 100,120" fill="url(#giftYellowSide)"/>
+          <!-- Red Ribbon -->
+          <rect x="53" y="55" width="14" height="65" fill="#FF5252"/>
+          <polygon points="53,55 78,30 92,30 67,55" fill="#FF7979"/>
+          <!-- Bow -->
+          <circle cx="73" cy="28" r="8" fill="#FF1744"/>
+        </g>
+      </g>
+
+      <!-- Right Foreground Gift Stack & Party Props -->
+      <g transform="translate(1180, 670)" filter="url(#softShadow)">
+        <ellipse cx="90" cy="190" rx="100" ry="26" fill="#3D1845" opacity="0.3"/>
+        <!-- Purple Giant 3D Box -->
+        <rect x="20" y="80" width="140" height="110" rx="8" fill="url(#giftPurpleFront)"/>
+        <polygon points="20,80 65,42 205,42 160,80" fill="url(#giftPurpleTop)"/>
+        <polygon points="160,80 205,42 205,152 160,190" fill="url(#giftPurpleSide)"/>
+        <!-- Mint Ribbon -->
+        <rect x="78" y="80" width="24" height="110" fill="#69F0AE"/>
+        <polygon points="78,80 123,42 147,42 102,80" fill="#B9F6CA"/>
+        <circle cx="112" cy="40" r="14" fill="#00E676"/>
+
+        <!-- Pink Medium Box Next to it -->
+        <g transform="translate(-100, 30)">
+          <rect x="15" y="60" width="90" height="75" rx="6" fill="#FF6584"/>
+          <polygon points="15,60 40,38 130,38 105,60" fill="#FF8DA9"/>
+          <polygon points="105,60 130,38 130,113 105,135" fill="#D63D62"/>
+          <circle cx="70" cy="36" r="10" fill="#FFD54F"/>
+        </g>
+      </g>
+
+      <!-- Bottom Edge Foreground Party Ribbons & Confetti Details (No Empty Bottom Space!) -->
+      <g opacity="0.85">
+        <!-- Curled Pink Ribbon Bottom Center -->
+        <path d="M 400 870 Q 430 840 470 860 Q 510 880 540 850 Q 560 880 600 865" fill="none" stroke="#FF4081" stroke-width="8" stroke-linecap="round"/>
+        <!-- Curled Teal Ribbon -->
+        <path d="M 850 865 Q 890 840 930 870 Q 970 890 1010 855" fill="none" stroke="#1DE9B6" stroke-width="8" stroke-linecap="round"/>
+        <!-- Scattered 3D Candy & Confetti on Bottom Floor -->
+        <circle cx="360" cy="850" r="9" fill="#FFEB3B"/>
+        <rect x="680" y="860" width="16" height="10" rx="3" fill="#AB47BC" transform="rotate(18 680 860)"/>
+        <circle cx="760" cy="870" r="8" fill="#FF5252"/>
+        <rect x="800" y="855" width="14" height="12" rx="4" fill="#448AFF" transform="rotate(-15 800 855)"/>
+        <circle cx="1060" cy="860" r="10" fill="#FF9E80"/>
+      </g>
+    </svg>
+  </div>
+
+  <script>
+    // Web Audio Sound System (Zero external assets, instant responsive chime audio)
+    const PartyAudio = (function() {
+      let ctx = null;
+
+      function getContext() {
+        if (!ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            ctx = new AudioContext();
+          }
+        }
+        if (ctx && ctx.state === 'suspended') {
+          ctx.resume();
+        }
+        return ctx;
+      }
+
+      function playPop() {
+        try {
+          const ac = getContext();
+          if (!ac) return;
+          const now = ac.currentTime;
+
+          // Cute balloon rubber pop noise + tone burst
+          const osc = ac.createOscillator();
+          const gain = ac.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(450, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.12);
+
+          gain.gain.setValueAtTime(0.8, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.12);
+
+          osc.connect(gain);
+          gain.connect(ac.destination);
+
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } catch (e) {
+          // graceful fallback
+        }
+      }
+
+      function playCorrect() {
+        try {
+          const ac = getContext();
+          if (!ac) return;
+          const now = ac.currentTime;
+          
+          // Happy 3-note celebration chime (C5 - E5 - G5)
+          const notes = [523.25, 659.25, 783.99, 1046.50];
+          notes.forEach((freq, idx) => {
+            const osc = ac.createOscillator();
+            const gain = ac.createGain();
+            const start = now + idx * 0.08;
+
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, start);
+
+            gain.gain.setValueAtTime(0, start);
+            gain.gain.linearRampToValueAtTime(0.35, start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, start + 0.28);
+
+            osc.connect(gain);
+            gain.connect(ac.destination);
+
+            osc.start(start);
+            osc.stop(start + 0.3);
+          });
+        } catch (e) {}
+      }
+
+      function playGentleWobble() {
+        try {
+          const ac = getContext();
+          if (!ac) return;
+          const now = ac.currentTime;
+
+          const osc = ac.createOscillator();
+          const gain = ac.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(260, now + 0.18);
+
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.18);
+
+          osc.connect(gain);
+          gain.connect(ac.destination);
+
+          osc.start(now);
+          osc.stop(now + 0.2);
+        } catch (e) {}
+      }
+
+      function playTap() {
+        try {
+          const ac = getContext();
+          if (!ac) return;
+          const now = ac.currentTime;
+
+          const osc = ac.createOscillator();
+          const gain = ac.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(580, now);
+          osc.frequency.exponentialRampToValueAtTime(740, now + 0.06);
+
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.005, now + 0.06);
+
+          osc.connect(gain);
+          gain.connect(ac.destination);
+
+          osc.start(now);
+          osc.stop(now + 0.07);
+        } catch (e) {}
+      }
+
+      return {
+        init: getContext,
+        pop: playPop,
+        celebrate: playCorrect,
+        wobble: playGentleWobble,
+        tap: playTap
+      };
+    })();
+  </script>
+
+  <script>
+    // Complete bilingual translations dictionary
+    const I18N = {
+      ms: {
+        gameTitle: "Pop the Balloons",
+        gameSub: "Cari dan kenal huruf dengan belon!",
+        btnStart: "Mula Main",
+        btnProfile: "Profil Pemain",
+        btnFamilyCode: "Kod Keluarga",
+        btnStudentProfile: "Profil Murid",
+        btnCollection: "Koleksi",
+        btnHowToPlay: "Cara Main",
+        btnBack: "Kembali",
+        btnPlayAgain: "Main Lagi",
+        btnHome: "Kembali ke Menu",
+        chooseGame: "Pilih Permainan",
+        session5: "5 Soalan",
+        session10: "10 Soalan",
+        session20: "20 Soalan",
+        sessionFree: "Main Bebas",
+        howToPlayTitle: "Cara Main",
+        howToPlayText: "Cari huruf yang betul dan pecahkan belon untuk melengkapkan permainan!",
+        score: "Skor",
+        question: "Soalan",
+        findLetterPrompt: "Cari huruf",
+        matchLetterPrompt: "Padankan huruf",
+        orderLettersPrompt: "Susun huruf ikut urutan",
+        missingLetterPrompt: "Huruf mana yang hilang?",
+        dragConnectPrompt: "Tarik belon ke pasangan huruf yang sama!",
+        huntPrompt: "Cari semua huruf",
+        resultGreat: "Hebat!",
+        resultComplete: "Permainan Selesai!",
+        resultScore: "Skor",
+        resultCorrect: "Jawapan Betul",
+        resultAccuracy: "Ketepatan",
+        familyCodeTitle: "Kod Keluarga",
+        familyCodeDesc: "Masukkan kod keluarga anda di sini (pilihan).",
+        familyCodePlaceholder: "Contoh: KK-7890",
+        save: "Simpan",
+        studentProfileTitle: "Profil Murid",
+        studentNameLabel: "Nama Murid",
+        studentAgeLabel: "Umur",
+        studentNamePlaceholder: "Nama anak anda",
+        playerProfileTitle: "Profil Pemain",
+        statGamesPlayed: "Permainan Dimainkan",
+        statQuestions: "Soalan Dijawab",
+        statCorrect: "Jawapan Betul",
+        statBestScore: "Skor Terbaik",
+        statAccuracy: "Ketepatan",
+        statRecentActivity: "Aktiviti Terkini",
+        statNoActivity: "Belum ada aktiviti lagi. Jom main!",
+        collectionTitle: "Koleksi Parti",
+        collectionIntro: "Semua reka bentuk belon dan hiasan parti hari lahir yang comel!",
+        itemsFound: "dijumpai",
+        allFound: "Hebat! Semua dijumpai!",
+        targetFound: "Jumpa!"
+      },
+      en: {
+        gameTitle: "Pop the Balloons",
+        gameSub: "Find and recognize letters with balloons!",
+        btnStart: "Start Playing",
+        btnProfile: "Player Profile",
+        btnFamilyCode: "Family Code",
+        btnStudentProfile: "Student Profile",
+        btnCollection: "Collection",
+        btnHowToPlay: "How to Play",
+        btnBack: "Back",
+        btnPlayAgain: "Play Again",
+        btnHome: "Back to Menu",
+        chooseGame: "Choose a Game",
+        session5: "5 Questions",
+        session10: "10 Questions",
+        session20: "20 Questions",
+        sessionFree: "Free Play",
+        howToPlayTitle: "How to Play",
+        howToPlayText: "Find the correct letters and pop the balloons to complete the game!",
+        score: "Score",
+        question: "Question",
+        findLetterPrompt: "Find letter",
+        matchLetterPrompt: "Match letter",
+        orderLettersPrompt: "Put the letters in order",
+        missingLetterPrompt: "Which letter is missing?",
+        dragConnectPrompt: "Drag balloon to the matching letter!",
+        huntPrompt: "Find all the letter",
+        resultGreat: "Great Job!",
+        resultComplete: "Game Complete!",
+        resultScore: "Score",
+        resultCorrect: "Correct Answers",
+        resultAccuracy: "Accuracy",
+        familyCodeTitle: "Family Code",
+        familyCodeDesc: "Enter your family code here (optional).",
+        familyCodePlaceholder: "e.g. KK-7890",
+        save: "Save",
+        studentProfileTitle: "Student Profile",
+        studentNameLabel: "Student Name",
+        studentAgeLabel: "Age",
+        studentNamePlaceholder: "Your child's name",
+        playerProfileTitle: "Player Profile",
+        statGamesPlayed: "Games Played",
+        statQuestions: "Questions Answered",
+        statCorrect: "Correct Answers",
+        statBestScore: "Best Score",
+        statAccuracy: "Accuracy",
+        statRecentActivity: "Recent Activity",
+        statNoActivity: "No activity yet. Let's play!",
+        collectionTitle: "Party Collection",
+        collectionIntro: "All the sweet chibi balloon shapes and birthday party treats!",
+        itemsFound: "found",
+        allFound: "Great! All found!",
+        targetFound: "Found!"
+      }
+    };
+  </script>
+
+  <script>
+    // State management & LocalStorage Key
+    const STORAGE_KEY = "kinderKlub_letterBalloonPop_playerProfile";
+
+    let state = {
+      lang: "ms", // "ms" or "en"
+      currentScreen: "home", // "home", "session", "instructions", "gameplay", "result", "profile", "student", "family", "collection"
+      score: 0,
+      totalQuestions: 5, // 5, 10, 20, or Infinity for Free Play
+      currentQuestionIndex: 0,
+      correctCount: 0,
+      totalAnswerAttempts: 0,
+      currentGameMode: "find", // "find", "match", "order", "missing", "drag", "hunt"
+      currentTaskData: null,
+      recentLetter: null, // Avoid immediate repeats
+      recentActivity: []
+    };
+
+    // Load persisted state
+    function loadSavedData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          return {
+            familyCode: parsed.familyCode || "",
+            studentName: parsed.studentName || "",
+            studentAge: parsed.studentAge || "",
+            gamesPlayed: parsed.gamesPlayed || 0,
+            questionsAnswered: parsed.questionsAnswered || 0,
+            correctAnswers: parsed.correctAnswers || 0,
+            bestScore: parsed.bestScore || 0,
+            recentActivity: parsed.recentActivity || [],
+            lang: parsed.lang || "ms"
+          };
+        }
+      } catch (e) {
+        console.error("Storage error:", e);
+      }
+      return {
+        familyCode: "",
+        studentName: "",
+        studentAge: "",
+        gamesPlayed: 0,
+        questionsAnswered: 0,
+        correctAnswers: 0,
+        bestScore: 0,
+        recentActivity: [],
+        lang: "ms"
+      };
+    }
+
+    let savedData = loadSavedData();
+    state.lang = savedData.lang || "ms";
+
+    function persistData() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(savedData));
+      } catch (e) {
+        console.error("Failed to save to localStorage", e);
+      }
+    }
+  </script>
+
+  <script>
+    // Palette of bright candy and pastel helium balloon colors
+    const BALLOON_PALETTES = [
+      { name: "Pink", main: "#FF4D88", top: "#FFA8CE", dark: "#C9185B", border: "#FFF" },
+      { name: "Hot Pink", main: "#FF2B75", top: "#FF8AB5", dark: "#B30043", border: "#FFF" },
+      { name: "Coral", main: "#FF6F4E", top: "#FFB3A1", dark: "#D13B17", border: "#FFF" },
+      { name: "Yellow", main: "#FFC719", top: "#FFF28A", dark: "#D49600", border: "#FFF" },
+      { name: "Mint", main: "#2DD498", top: "#A1FCE1", dark: "#0EA36F", border: "#FFF" },
+      { name: "Cyan", main: "#20B8FF", top: "#98E4FF", dark: "#0B82BD", border: "#FFF" },
+      { name: "Purple", main: "#9C5CFF", top: "#D8BCFF", dark: "#6F2CD1", border: "#FFF" },
+      { name: "Orange", main: "#FF8C1A", top: "#FFCE8A", dark: "#C75A00", border: "#FFF" },
+      { name: "Lime", main: "#72D627", top: "#BFFCA4", dark: "#4E9E13", border: "#FFF" }
+    ];
+
+    const BALLOON_SHAPES = ["round", "oval", "heart", "star", "flower", "cloud", "cupcake"];
+
+    // Return complete inline SVG for high-quality, plump 3D helium balloons with zero broken filters
+    function createHeliumBalloonSVG({ letter = "A", shape = "round", palette = BALLOON_PALETTES[0], size = 110, showLetter = true, stringLength = 55 }) {
+      const p = palette;
+      const uid = 'bal_' + Math.random().toString(36).substring(2, 9);
+      const totalHeight = 105 + stringLength;
+
+      let shapePath = "";
+      let shineOverlay = "";
+
+      if (shape === "heart") {
+        shapePath = `
+          <path d="M 55 92 C 22 68 8 48 8 30 C 8 14 20 4 35 4 C 44 4 51 9 55 17 C 59 9 66 4 75 4 C 90 4 102 14 102 30 C 102 48 88 68 55 92 Z" 
+                fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+        `;
+        shineOverlay = `
+          <ellipse cx="32" cy="24" rx="12" ry="7" transform="rotate(-30 32 24)" fill="#FFFFFF" opacity="0.65"/>
+          <circle cx="24" cy="34" r="3" fill="#FFFFFF" opacity="0.5"/>
+        `;
+      } else if (shape === "star") {
+        shapePath = `
+          <polygon points="55,6 68,36 100,38 75,60 83,92 55,74 27,92 35,60 10,38 42,36" 
+                   fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5" stroke-linejoin="round"/>
+        `;
+        shineOverlay = `
+          <ellipse cx="46" cy="32" rx="10" ry="5" transform="rotate(-25 46 32)" fill="#FFFFFF" opacity="0.6"/>
+          <circle cx="36" cy="42" r="3" fill="#FFFFFF" opacity="0.45"/>
+        `;
+      } else if (shape === "flower") {
+        shapePath = `
+          <!-- Petals -->
+          <circle cx="55" cy="20" r="17" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="1.8"/>
+          <circle cx="83" cy="36" r="17" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="1.8"/>
+          <circle cx="83" cy="66" r="17" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="1.8"/>
+          <circle cx="55" cy="82" r="17" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="1.8"/>
+          <circle cx="27" cy="66" r="17" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="1.8"/>
+          <circle cx="27" cy="36" r="17" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="1.8"/>
+          <!-- Center Plump Bulb -->
+          <circle cx="55" cy="51" r="34" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+        `;
+        shineOverlay = `
+          <ellipse cx="42" cy="35" rx="14" ry="7" transform="rotate(-30 42 35)" fill="#FFFFFF" opacity="0.65"/>
+          <circle cx="34" cy="45" r="3" fill="#FFFFFF" opacity="0.5"/>
+        `;
+      } else if (shape === "cloud") {
+        shapePath = `
+          <path d="M 24 64 A 20 20 0 0 1 32 28 A 26 26 0 0 1 76 22 A 22 22 0 0 1 90 64 Z" 
+                fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+          <path d="M 24 64 L 90 64 Z" fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+        `;
+        shineOverlay = `
+          <ellipse cx="48" cy="32" rx="16" ry="7" fill="#FFFFFF" opacity="0.6"/>
+        `;
+      } else if (shape === "cupcake") {
+        shapePath = `
+          <!-- Cup base -->
+          <polygon points="30,52 36,88 74,88 80,52" fill="#E8B582" stroke="#B87B42" stroke-width="2"/>
+          <line x1="42" y1="53" x2="45" y2="87" stroke="#B87B42" stroke-width="1.5"/>
+          <line x1="55" y1="53" x2="55" y2="87" stroke="#B87B42" stroke-width="1.5"/>
+          <line x1="68" y1="53" x2="65" y2="87" stroke="#B87B42" stroke-width="1.5"/>
+          <!-- Plump Icing Dome -->
+          <path d="M 20 52 C 18 20 40 12 55 12 C 70 12 92 20 90 52 Z" 
+                fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+          <circle cx="55" cy="10" r="7" fill="#FF1744" stroke="#B30026" stroke-width="1.5"/>
+        `;
+        shineOverlay = `
+          <ellipse cx="42" cy="30" rx="12" ry="6" transform="rotate(-20 42 30)" fill="#FFFFFF" opacity="0.65"/>
+        `;
+      } else if (shape === "oval") {
+        shapePath = `
+          <!-- Tapered Egg Balloon -->
+          <path d="M 55,6 C 82,6 96,28 96,54 C 96,78 78,94 57,94 C 55,94 55,94 53,94 C 32,94 14,78 14,54 C 14,28 28,6 55,6 Z" 
+                fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+        `;
+        shineOverlay = `
+          <ellipse cx="38" cy="28" rx="15" ry="7" transform="rotate(-35 38 28)" fill="#FFFFFF" opacity="0.75"/>
+          <circle cx="26" cy="40" r="3.5" fill="#FFFFFF" opacity="0.55"/>
+          <path d="M 24 70 C 28 80 40 88 54 90" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" opacity="0.35"/>
+        `;
+      } else {
+        // Classic Plump Round Helium Balloon
+        shapePath = `
+          <!-- Chubby round body with tapered bottom knot neck -->
+          <path d="M 55,7 C 84,7 98,30 98,55 C 98,78 80,94 58,94 C 55,94 55,94 52,94 C 30,94 12,78 12,55 C 12,30 26,7 55,7 Z" 
+                fill="url(#${uid}_grad)" stroke="${p.dark}" stroke-width="2.5"/>
+        `;
+        shineOverlay = `
+          <!-- Signature Curved Capsule Specular Glare -->
+          <ellipse cx="37" cy="28" rx="16" ry="8" transform="rotate(-35 37 28)" fill="#FFFFFF" opacity="0.8"/>
+          <circle cx="25" cy="42" r="3.5" fill="#FFFFFF" opacity="0.6"/>
+          <!-- Soft bottom edge rim highlight -->
+          <path d="M 22 72 C 28 82 40 90 54 91" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.35"/>
+        `;
+      }
+
+      return `
+        <svg viewBox="0 0 110 ${totalHeight}" width="${size}" height="${(size * totalHeight) / 110}" style="overflow: visible; filter: drop-shadow(0 6px 8px rgba(60, 20, 75, 0.22));" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <!-- 3D Volumetric Radial Shading (Top-Left Highlight to Deep Base) -->
+            <radialGradient id="${uid}_grad" cx="36%" cy="30%" r="66%" fx="28%" fy="22%">
+              <stop offset="0%" stop-color="${p.top}"/>
+              <stop offset="50%" stop-color="${p.main}"/>
+              <stop offset="100%" stop-color="${p.dark}"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Balloon Helium String (Curled, flowing downwards) -->
+          <g>
+            <path d="M 55 98 Q 48 116 60 128 Q 47 142 57 154 Q 48 166 54 ${totalHeight - 3}" 
+                  fill="none" stroke="#D187A9" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M 55 98 Q 48 116 60 128 Q 47 142 57 154 Q 48 166 54 ${totalHeight - 3}" 
+                  fill="none" stroke="#FFFFFF" stroke-width="1.3" stroke-linecap="round" opacity="0.8"/>
+          </g>
+
+          <!-- Balloon Main 3D Silhouette -->
+          <g>
+            ${shapePath}
+            ${shineOverlay}
+
+            <!-- 3D Tie Knot & Rolled Rubber Rim -->
+            <polygon points="49,94 61,94 55,102" fill="${p.dark}"/>
+            <ellipse cx="55" cy="94" rx="7" ry="3.5" fill="${p.main}" stroke="${p.dark}" stroke-width="1.8"/>
+          </g>
+
+          <!-- Bold, Highly Legible Uppercase Letter Inside with Soft Contrast Plate -->
+          ${showLetter ? `
+            <g>
+              <ellipse cx="55" cy="56" rx="24" ry="24" fill="#000000" opacity="0.12"/>
+              <text x="55" y="58" text-anchor="middle" dominant-baseline="central"
+                    font-family="'Quicksand', sans-serif" font-weight="800" font-size="38"
+                    fill="#FFFFFF" stroke="${p.dark}" stroke-width="6" paint-order="stroke fill"
+                    style="pointer-events: none; letter-spacing: -0.5px;">${letter}</text>
+            </g>
+          ` : ""}
+        </svg>
+      `;
+    }
+
+    // Bespoke Fully Animated Chibi Mascot: "Barnaby the Birthday Panda Bear"
+    function getPartyMascotSVG(emotion = "idle", size = 130) {
+      const pId = 'panda_' + Math.random().toString(36).substring(2, 8);
+      const isHappy = emotion === "happy" || emotion === "celebrate";
+      const isWobble = emotion === "wobble";
+
+      // Animation parameters tailored per emotion
+      let bounceTransform = "";
+      let leftArmAnim = "";
+      let rightArmAnim = "";
+      let faceAnim = "";
+      let hatAnim = "";
+      let sparkles = "";
+
+      if (isHappy) {
+        // Joyful, energetic party celebration jump & cheer
+        bounceTransform = `
+          <animateTransform attributeName="transform" type="translate" 
+            values="0,0; 0,-9; 0,1; 0,-9; 0,0" 
+            dur="0.8s" repeatCount="indefinite" calcMode="spline"
+            keySplines="0.25 0.1 0.25 1; 0.42 0 1 1; 0.25 0.1 0.25 1; 0.42 0 1 1"/>
+        `;
+
+        // Both arms raised high in party cheer!
+        leftArmAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="-65 26 82; -85 26 82; -65 26 82" dur="0.5s" repeatCount="indefinite"/>
+        `;
+        rightArmAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="65 94 82; 85 94 82; 65 94 82" dur="0.5s" repeatCount="indefinite"/>
+        `;
+
+        // Happy crescent curved eyes laughing + joyful open mouth
+        faceAnim = `
+          <g>
+            <!-- Laughing happy eyes with gentle bounce -->
+            <path d="M 37 47 Q 44 38 51 47" fill="none" stroke="#35203B" stroke-width="4" stroke-linecap="round"/>
+            <path d="M 69 47 Q 76 38 83 47" fill="none" stroke="#35203B" stroke-width="4" stroke-linecap="round"/>
+            
+            <!-- Cheerful wide open laughing mouth with rosy tongue -->
+            <path d="M 50 56 Q 60 74 70 56 Z" fill="#FF3366"/>
+            <path d="M 54 64 Q 60 69 66 64" fill="#FFA5C0" stroke="#FF3366" stroke-width="1.2"/>
+            
+            <!-- Nose wiggle -->
+            <ellipse cx="60" cy="50" rx="4.5" ry="3.5" fill="#35203B">
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-1; 0,0" dur="0.4s" repeatCount="indefinite"/>
+            </ellipse>
+          </g>
+        `;
+
+        // Party Hat bobbing with pom-pom spring
+        hatAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="-4 60 16; 6 60 16; -4 60 16" dur="0.4s" repeatCount="indefinite"/>
+        `;
+
+        // Sparkle stars around the cheering panda
+        sparkles = `
+          <g fill="#FFD700" opacity="0.9">
+            <!-- Left Sparkle Star -->
+            <path d="M 16 22 L 18 16 L 24 14 L 18 12 L 16 6 L 14 12 L 8 14 L 14 16 Z">
+              <animateTransform attributeName="transform" type="rotate" values="0 16 14; 360 16 14" dur="2s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.4;1;0.4" dur="1s" repeatCount="indefinite"/>
+            </path>
+            <!-- Right Sparkle Star -->
+            <path d="M 104 22 L 106 16 L 112 14 L 106 12 L 104 6 L 102 12 L 96 14 L 102 16 Z">
+              <animateTransform attributeName="transform" type="rotate" values="360 104 14; 0 104 14" dur="1.8s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite"/>
+            </path>
+          </g>
+        `;
+
+      } else if (isWobble) {
+        // Inquisitive, friendly head tilt ("Hmm, which letter is it?")
+        bounceTransform = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="0 60 110; -5 60 110; 5 60 110; -3 60 110; 0 60 110" 
+            dur="1.2s" repeatCount="indefinite"/>
+        `;
+
+        leftArmAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="18 26 82; 10 26 82; 18 26 82" dur="1.2s" repeatCount="indefinite"/>
+        `;
+        // Paw scratch cheek in thought
+        rightArmAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="-50 94 82; -65 94 82; -50 94 82" dur="0.9s" repeatCount="indefinite"/>
+        `;
+
+        faceAnim = `
+          <g>
+            <!-- Big curious chibi blinking eyes -->
+            <ellipse cx="44" cy="45" rx="5.5" ry="6.5" fill="#35203B">
+              <animate attributeName="ry" values="6.5; 6.5; 1; 6.5" keyTimes="0; 0.9; 0.95; 1" dur="2.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <circle cx="43" cy="43" r="2.2" fill="#FFFFFF"/>
+            
+            <ellipse cx="76" cy="45" rx="6.5" ry="7.5" fill="#35203B">
+              <animate attributeName="ry" values="7.5; 7.5; 1.2; 7.5" keyTimes="0; 0.9; 0.95; 1" dur="2.5s" repeatCount="indefinite"/>
+            </ellipse>
+            <circle cx="74.5" cy="43" r="2.6" fill="#FFFFFF"/>
+
+            <ellipse cx="60" cy="50" rx="4.5" ry="3.5" fill="#35203B"/>
+
+            <!-- Cute wondering 'O' mouth -->
+            <ellipse cx="60" cy="59" rx="4.5" ry="5.5" fill="#35203B">
+              <animate attributeName="ry" values="5.5; 4.5; 5.5" dur="1s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="60" cy="60" rx="2.5" ry="3" fill="#FF6584"/>
+          </g>
+        `;
+
+        hatAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="-6 60 16; -2 60 16; -6 60 16" dur="1.2s" repeatCount="indefinite"/>
+        `;
+
+      } else {
+        // Idle friendly breathing, cute blinking, ear twitching and waving paw
+        bounceTransform = `
+          <animateTransform attributeName="transform" type="translate" 
+            values="0,0; 0,-3.5; 0,0" 
+            dur="2.8s" repeatCount="indefinite" calcMode="spline"
+            keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+        `;
+
+        // Left arm gentle idle rest
+        leftArmAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="18 26 82; 24 26 82; 18 26 82" dur="2.8s" repeatCount="indefinite"/>
+        `;
+
+        // Right arm cute preschool waving hello!
+        rightArmAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="-15 94 82; -42 94 82; -20 94 82; -40 94 82; -15 94 82" 
+            keyTimes="0; 0.25; 0.5; 0.75; 1" dur="2.4s" repeatCount="indefinite"/>
+        `;
+
+        // Natural eyelid blinking every 3.5 seconds
+        faceAnim = `
+          <g>
+            <!-- Left Eye & Pupil Glints with Blinking Animation -->
+            <g id="${pId}_left_eye">
+              <ellipse cx="44" cy="45" rx="5.5" ry="6.5" fill="#35203B">
+                <animate attributeName="ry" values="6.5; 6.5; 0.6; 6.5" keyTimes="0; 0.92; 0.96; 1" dur="3.5s" repeatCount="indefinite"/>
+              </ellipse>
+              <circle cx="43" cy="43" r="2.2" fill="#FFFFFF">
+                <animate attributeName="opacity" values="1; 1; 0; 1" keyTimes="0; 0.92; 0.96; 1" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="46" cy="47" r="1.1" fill="#FFFFFF">
+                <animate attributeName="opacity" values="1; 1; 0; 1" keyTimes="0; 0.92; 0.96; 1" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+
+            <!-- Right Eye & Pupil Glints -->
+            <g id="${pId}_right_eye">
+              <ellipse cx="76" cy="45" rx="5.5" ry="6.5" fill="#35203B">
+                <animate attributeName="ry" values="6.5; 6.5; 0.6; 6.5" keyTimes="0; 0.92; 0.96; 1" dur="3.5s" repeatCount="indefinite"/>
+              </ellipse>
+              <circle cx="75" cy="43" r="2.2" fill="#FFFFFF">
+                <animate attributeName="opacity" values="1; 1; 0; 1" keyTimes="0; 0.92; 0.96; 1" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="78" cy="47" r="1.1" fill="#FFFFFF">
+                <animate attributeName="opacity" values="1; 1; 0; 1" keyTimes="0; 0.92; 0.96; 1" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+
+            <!-- Shiny Button Nose with subtle sniffing -->
+            <ellipse cx="60" cy="50" rx="4.5" ry="3.5" fill="#35203B">
+              <animateTransform attributeName="transform" type="scale" values="1,1; 1.08,0.95; 1,1" dur="1.8s" repeatCount="indefinite" transform-origin="60 50"/>
+            </ellipse>
+
+            <!-- Sweet Preschool Smile -->
+            <path d="M 54 56 Q 60 62 66 56" fill="none" stroke="#35203B" stroke-width="2.8" stroke-linecap="round"/>
+          </g>
+        `;
+
+        hatAnim = `
+          <animateTransform attributeName="transform" type="rotate" 
+            values="-2 60 16; 2 60 16; -2 60 16" dur="2.8s" repeatCount="indefinite"/>
+        `;
+      }
+
+      return `
+        <svg viewBox="0 0 120 128" width="${size}" height="${(size * 128) / 120}" xmlns="http://www.w3.org/2000/svg" style="overflow: visible; filter: drop-shadow(0 4px 6px rgba(75, 32, 92, 0.2));">
+          <!-- Dynamic Contact Floor Shadow -->
+          <ellipse cx="60" cy="120" rx="38" ry="7" fill="#4B205C" opacity="0.22">
+            <animate attributeName="rx" values="${isHappy ? '38; 30; 39; 30; 38' : '38; 35; 38'}" dur="${isHappy ? '0.8s' : '2.8s'}" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="${isHappy ? '0.22; 0.12; 0.24; 0.12; 0.22' : '0.22; 0.18; 0.22'}" dur="${isHappy ? '0.8s' : '2.8s'}" repeatCount="indefinite"/>
+          </ellipse>
+
+          <!-- Sparkling Stars on Happy State -->
+          ${sparkles}
+
+          <!-- Entire Character Assembly with Breathing / Bounce -->
+          <g>
+            ${bounceTransform}
+
+            <!-- Ears with cute alternating twitches -->
+            <!-- Left Ear -->
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0 28 24; -8 28 24; 4 28 24; 0 28 24" keyTimes="0; 0.4; 0.7; 1" dur="3.2s" repeatCount="indefinite"/>
+              <circle cx="28" cy="24" r="14" fill="#583A63"/>
+              <circle cx="28" cy="24" r="8" fill="#FFAEC9"/>
+            </g>
+
+            <!-- Right Ear -->
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="0 92 24; 8 92 24; -4 92 24; 0 92 24" keyTimes="0; 0.35; 0.65; 1" dur="3s" repeatCount="indefinite"/>
+              <circle cx="92" cy="24" r="14" fill="#583A63"/>
+              <circle cx="92" cy="24" r="8" fill="#FFAEC9"/>
+            </g>
+
+            <!-- Round Chibi Body with breathing expand -->
+            <ellipse cx="60" cy="85" rx="36" ry="32" fill="#FFFFFF"/>
+            <ellipse cx="60" cy="88" rx="24" ry="20" fill="#FFF0F5"/>
+
+            <!-- Arms with dynamic gesture animation -->
+            <!-- Left Arm -->
+            <g>
+              ${leftArmAnim}
+              <ellipse cx="26" cy="82" rx="10" ry="16" fill="#583A63"/>
+            </g>
+
+            <!-- Right Arm (Waving or Cheering) -->
+            <g>
+              ${rightArmAnim}
+              <ellipse cx="94" cy="82" rx="10" ry="16" fill="#583A63"/>
+            </g>
+
+            <!-- Feet -->
+            <ellipse cx="44" cy="112" rx="13" ry="9" fill="#583A63"/>
+            <ellipse cx="76" cy="112" rx="13" ry="9" fill="#583A63"/>
+
+            <!-- Head with 3D round form -->
+            <circle cx="60" cy="50" r="38" fill="#FFFFFF"/>
+
+            <!-- Blushing Cheeks with pulsing radiance -->
+            <ellipse cx="32" cy="53" rx="7.5" ry="4.5" fill="#FF8BA7" opacity="0.65">
+              <animate attributeName="opacity" values="0.55; 0.8; 0.55" dur="2s" repeatCount="indefinite"/>
+            </ellipse>
+            <ellipse cx="88" cy="53" rx="7.5" ry="4.5" fill="#FF8BA7" opacity="0.65">
+              <animate attributeName="opacity" values="0.55; 0.8; 0.55" dur="2s" repeatCount="indefinite"/>
+            </ellipse>
+
+            <!-- Dynamic Animated Face Details (Eyes, Nose, Mouth) -->
+            ${faceAnim}
+
+            <!-- Cute Festive Bowtie with subtle flutter -->
+            <g>
+              <animateTransform attributeName="transform" type="rotate" values="-2 60 80; 2 60 80; -2 60 80" dur="1.8s" repeatCount="indefinite"/>
+              <polygon points="48,75 48,85 60,80" fill="#FF4081"/>
+              <polygon points="72,75 72,85 60,80" fill="#FF4081"/>
+              <circle cx="60" cy="80" r="3.5" fill="#FFD54F"/>
+            </g>
+
+            <!-- Colorful Birthday Party Hat with bouncy pom-pom -->
+            <g>
+              ${hatAnim}
+              <polygon points="46,16 74,16 60,-15" fill="#FF5252"/>
+              <!-- Festive stripes -->
+              <polygon points="50,7 70,7 60,-15" fill="#FFD700" opacity="0.85"/>
+              <line x1="49" y1="12" x2="71" y2="12" stroke="#40C4FF" stroke-width="3"/>
+              
+              <!-- Bouncing Fluffy Pom-Pom -->
+              <circle cx="60" cy="-17" r="7" fill="#69F0AE">
+                <animateTransform attributeName="transform" type="translate" values="0,0; 0,-2.5; 0,0" dur="0.6s" repeatCount="indefinite"/>
+              </circle>
+            </g>
+          </g>
+        </svg>
+      `;
+    }
+  </script>
+
+  <div id="game-app-container" class="relative z-10 w-full h-full flex flex-col justify-between p-3 sm:p-5 select-none overflow-hidden">
+    
+    <!-- Top Bar: Navigation, Score / Progress, Language Switcher -->
+    <header class="w-full flex items-center justify-between max-w-4xl mx-auto z-20">
+      
+      <!-- Left: Back Button (shown when not on home) / Brand Pill -->
+      <div class="flex items-center gap-2">
+        <button id="nav-back-btn" class="hidden party-btn btn-white px-3 py-2 text-sm shadow-md" aria-label="Back">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span class="ml-1 font-bold text-xs" data-t="btnBack">Kembali</span>
+        </button>
+
+        <div id="brand-tag" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 border border-white shadow-sm backdrop-blur-md">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#FF4D80">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span class="font-extrabold text-xs text-pink-600 tracking-wider uppercase">Kinder Klub</span>
+        </div>
+      </div>
+
+      <!-- Center: Score & Progress Badge (Active in gameplay) -->
+      <div id="gameplay-status-bar" class="hidden flex items-center gap-3">
+        <!-- Score Pill -->
+        <div class="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/95 border-2 border-amber-300 shadow-md">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="#FFC107">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          <span class="text-xs font-bold text-amber-800" data-t="score">Skor</span>
+          <span id="current-score-text" class="text-base font-extrabold text-amber-900">0</span>
+        </div>
+
+        <!-- Progress Counter -->
+        <div id="question-progress-pill" class="flex items-center gap-1 px-3 py-1.5 rounded-full bg-white/95 border-2 border-pink-300 shadow-md">
+          <span class="text-xs font-bold text-pink-700" data-t="question">Soalan</span>
+          <span id="question-progress-text" class="text-xs font-black text-pink-900">1 / 5</span>
+        </div>
+      </div>
+
+      <!-- Right: Sound Toggle & Bilingual Toggle -->
+      <div class="flex items-center gap-2">
+        <!-- Language Switcher Pill -->
+        <div class="flex rounded-full bg-white/90 p-1 border border-white shadow-md">
+          <button id="lang-btn-ms" class="px-2.5 py-1 rounded-full text-xs font-black transition-all">BM</button>
+          <button id="lang-btn-en" class="px-2.5 py-1 rounded-full text-xs font-black transition-all">EN</button>
+        </div>
+
+        <!-- How to Play Quick Help Button -->
+        <button id="btn-quick-help" class="party-btn btn-white w-9 h-9 text-pink-600 font-black text-sm shadow-md" aria-label="Help">
+          ?
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT VIEWPORT (Houses all distinct screens) -->
+    <main id="main-screens-container" class="w-full flex-1 flex items-center justify-center relative my-1 z-10 overflow-hidden">
+      
+      <!-- SCREEN 1: HOME SCREEN -->
+      <section id="screen-home" class="w-full max-w-md flex flex-col items-center text-center px-4 py-2">
+        <!-- Party Gift Tag Banner -->
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-100/90 border border-pink-200 text-pink-700 text-xs font-bold mb-2 shadow-sm">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="#FF4081">
+            <circle cx="12" cy="12" r="10"/>
+          </svg>
+          <span data-t="gameSub">Cari dan kenal huruf dengan belon!</span>
+        </div>
+
+        <!-- Chunky 3D Title -->
+        <h1 class="text-4xl sm:text-5xl font-black text-pink-600 drop-shadow-sm tracking-tight mb-3">
+          Pop the Balloons
+        </h1>
+
+        <!-- Mascot Welcome Container -->
+        <div id="home-mascot-box" class="my-2 cursor-pointer transform hover:scale-105 transition-transform" onclick="PartyAudio.celebrate()">
+          <!-- SVG Mascot dynamically injected -->
+        </div>
+
+        <!-- Main Buttons -->
+        <div class="w-full max-w-xs flex flex-col gap-2.5 mt-2">
+          <button id="btn-home-start" class="party-btn btn-pink py-3.5 text-lg font-black w-full" data-t="btnStart">
+            Mula Main
+          </button>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-home-profile" class="party-btn btn-white py-2.5 text-xs font-bold" data-t="btnProfile">
+              Profil Pemain
+            </button>
+            <button id="btn-home-family" class="party-btn btn-white py-2.5 text-xs font-bold" data-t="btnFamilyCode">
+              Kod Keluarga
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-home-student" class="party-btn btn-white py-2.5 text-xs font-bold" data-t="btnStudentProfile">
+              Profil Murid
+            </button>
+            <button id="btn-home-collection" class="party-btn btn-yellow py-2.5 text-xs font-bold" data-t="btnCollection">
+              Koleksi
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2: SESSION SELECTION -->
+      <section id="screen-session" class="hidden w-full max-w-md flex flex-col items-center px-4">
+        <div class="party-panel w-full p-6 text-center">
+          <h2 class="text-2xl font-black text-pink-600 mb-1" data-t="chooseGame">Pilih Permainan</h2>
+          <p class="text-xs font-semibold text-slate-500 mb-5" data-t="gameSub">Cari dan kenal huruf dengan belon!</p>
+
+          <div class="grid grid-cols-1 gap-3">
+            <button class="session-select-btn party-btn btn-pink py-3 text-base font-extrabold w-full" data-count="5" data-t="session5">
+              5 Soalan
+            </button>
+            <button class="session-select-btn party-btn btn-yellow py-3 text-base font-extrabold w-full" data-count="10" data-t="session10">
+              10 Soalan
+            </button>
+            <button class="session-select-btn party-btn btn-purple py-3 text-base font-extrabold w-full" data-count="20" data-t="session20">
+              20 Soalan
+            </button>
+            <button class="session-select-btn party-btn btn-mint py-3 text-base font-extrabold w-full" data-count="Infinity" data-t="sessionFree">
+              Main Bebas
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 3: INSTRUCTIONS (Visual & Demo) -->
+      <section id="screen-instructions" class="hidden w-full max-w-md flex flex-col items-center px-4">
+        <div class="party-panel w-full p-6 text-center">
+          <h2 class="text-2xl font-black text-pink-600 mb-2" data-t="howToPlayTitle">Cara Main</h2>
+          
+          <div class="party-card-inner p-4 my-3 flex flex-col items-center">
+            <!-- Animated Visual SVG Demo -->
+            <div id="instructions-demo-balloon" class="balloon-float-1 my-2"></div>
+            <p class="text-sm font-bold text-slate-700 leading-relaxed" data-t="howToPlayText">
+              Cari huruf yang betul dan pecahkan belon untuk melengkapkan permainan!
+            </p>
+          </div>
+
+          <button id="btn-instructions-play" class="party-btn btn-pink py-3 px-8 text-base font-black mt-2" data-t="btnStart">
+            Mula Main
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 4: GAMEPLAY ARENA -->
+      <section id="screen-gameplay" class="hidden w-full h-full flex flex-col items-center justify-between py-1 relative">
+        
+        <!-- Task Prompt Ribbon Banner -->
+        <div class="w-full max-w-lg z-20 px-3">
+          <div class="bg-white/95 border-3 border-pink-400 rounded-2xl shadow-lg px-4 py-2 flex items-center justify-center gap-3 backdrop-blur-md">
+            <span id="mascot-prompt-avatar" class="w-10 h-10 flex-shrink-0"></span>
+            <div class="text-center">
+              <span id="prompt-main-text" class="text-base sm:text-lg font-extrabold text-slate-800 tracking-wide">
+                Cari huruf
+              </span>
+              <span id="prompt-target-letter" class="inline-block ml-1 text-2xl sm:text-3xl font-black text-pink-600 px-2 py-0.5 rounded-lg bg-pink-50 border border-pink-200">
+                A
+              </span>
+            </div>
+            <!-- Letter Hunt Progress Indicator -->
+            <div id="hunt-progress-chip" class="hidden px-2.5 py-1 rounded-full bg-pink-500 text-white font-black text-xs">
+              0 / 3
+            </div>
+          </div>
+        </div>
+
+        <!-- Center Gameplay Stage (Dynamic Balloon Spawn Zone) -->
+        <div id="gameplay-stage" class="w-full flex-1 relative flex items-center justify-center overflow-hidden my-1">
+          <!-- Interactive Helium Balloons are injected here -->
+          <svg id="drag-connect-svg-overlay" class="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg">
+            <!-- Dynamic connecting drag paths are rendered here -->
+          </svg>
+        </div>
+
+        <!-- Stage Bottom Ribbon / Sparkle feedback -->
+        <div id="feedback-toast" class="opacity-0 transition-opacity duration-300 pointer-events-none z-30 mb-2 px-5 py-1.5 rounded-full bg-white/95 border-2 border-pink-400 shadow-md font-black text-pink-600 text-sm">
+          Hebat!
+        </div>
+      </section>
+
+      <!-- SCREEN 5: RESULT CELEBRATION -->
+      <section id="screen-result" class="hidden w-full max-w-md flex flex-col items-center px-4">
+        <div class="party-panel w-full p-6 text-center">
+          <div id="result-mascot-box" class="w-24 h-24 mx-auto mb-1"></div>
+          
+          <h2 class="text-3xl font-black text-pink-600 mb-0.5" data-t="resultGreat">Hebat!</h2>
+          <p class="text-xs font-bold text-slate-500 mb-4" data-t="resultComplete">Permainan Selesai!</p>
+
+          <div class="party-card-inner p-4 mb-4 grid grid-cols-3 gap-2 text-center">
+            <div class="flex flex-col items-center">
+              <span class="text-xs font-bold text-slate-500" data-t="resultScore">Skor</span>
+              <span id="result-score-val" class="text-2xl font-black text-pink-600">50</span>
+            </div>
+            <div class="flex flex-col items-center border-x border-pink-200">
+              <span class="text-xs font-bold text-slate-500" data-t="resultCorrect">Betul</span>
+              <span id="result-correct-val" class="text-2xl font-black text-emerald-600">5</span>
+            </div>
+            <div class="flex flex-col items-center">
+              <span class="text-xs font-bold text-slate-500" data-t="resultAccuracy">Ketepatan</span>
+              <span id="result-acc-val" class="text-2xl font-black text-amber-600">100%</span>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <button id="btn-result-replay" class="party-btn btn-pink py-3 text-base font-black w-full" data-t="btnPlayAgain">
+              Main Lagi
+            </button>
+            <button id="btn-result-home" class="party-btn btn-white py-2.5 text-xs font-bold w-full" data-t="btnHome">
+              Kembali ke Menu
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 6: PLAYER PROFILE -->
+      <section id="screen-profile" class="hidden w-full max-w-md flex flex-col items-center px-4">
+        <div class="party-panel w-full p-5 text-center">
+          <h2 class="text-2xl font-black text-pink-600 mb-3" data-t="playerProfileTitle">Profil Pemain</h2>
+          
+          <!-- Stats Grid -->
+          <div class="grid grid-cols-2 gap-2 text-left mb-4">
+            <div class="bg-pink-50 p-2.5 rounded-2xl border border-pink-200">
+              <div class="text-[11px] font-bold text-slate-500" data-t="statGamesPlayed">Permainan Dimainkan</div>
+              <div id="stat-val-games" class="text-lg font-black text-pink-600">0</div>
+            </div>
+            <div class="bg-yellow-50 p-2.5 rounded-2xl border border-yellow-200">
+              <div class="text-[11px] font-bold text-slate-500" data-t="statBestScore">Skor Terbaik</div>
+              <div id="stat-val-best" class="text-lg font-black text-yellow-600">0</div>
+            </div>
+            <div class="bg-emerald-50 p-2.5 rounded-2xl border border-emerald-200">
+              <div class="text-[11px] font-bold text-slate-500" data-t="statQuestions">Soalan Dijawab</div>
+              <div id="stat-val-questions" class="text-lg font-black text-emerald-600">0</div>
+            </div>
+            <div class="bg-blue-50 p-2.5 rounded-2xl border border-blue-200">
+              <div class="text-[11px] font-bold text-slate-500" data-t="statAccuracy">Ketepatan</div>
+              <div id="stat-val-acc" class="text-lg font-black text-blue-600">0%</div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="text-left mb-4">
+            <span class="text-xs font-bold text-slate-600 mb-1 block" data-t="statRecentActivity">Aktiviti Terkini</span>
+            <div id="profile-recent-list" class="max-h-24 overflow-y-auto bg-slate-50 p-2 rounded-xl border border-slate-200 text-xs font-medium text-slate-600">
+              <span data-t="statNoActivity">Belum ada aktiviti lagi. Jom main!</span>
+            </div>
+          </div>
+
+          <button class="nav-return-btn party-btn btn-white py-2 text-xs font-bold w-full" data-t="btnBack">
+            Kembali
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 7: STUDENT PROFILE -->
+      <section id="screen-student" class="hidden w-full max-w-md flex flex-col items-center px-4">
+        <div class="party-panel w-full p-5 text-center">
+          <h2 class="text-2xl font-black text-pink-600 mb-3" data-t="studentProfileTitle">Profil Murid</h2>
+
+          <div class="party-card-inner p-4 text-left flex flex-col gap-3 mb-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1" data-t="studentNameLabel">Nama Murid</label>
+              <input type="text" id="input-student-name" class="w-full px-3 py-2 rounded-xl border border-pink-200 bg-white font-bold text-slate-800 outline-none focus:ring-2 focus:ring-pink-400" placeholder="Nama anak anda" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1" data-t="studentAgeLabel">Umur</label>
+              <select id="select-student-age" class="w-full px-3 py-2 rounded-xl border border-pink-200 bg-white font-bold text-slate-800 outline-none focus:ring-2 focus:ring-pink-400">
+                <option value="">-</option>
+                <option value="3">3 Tahun / Years</option>
+                <option value="4">4 Tahun / Years</option>
+                <option value="5">5 Tahun / Years</option>
+                <option value="6">6 Tahun / Years</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="btn-save-student" class="party-btn btn-pink py-2.5 text-sm font-black w-full" data-t="save">
+            Simpan
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 8: FAMILY CODE -->
+      <section id="screen-family" class="hidden w-full max-w-md flex flex-col items-center px-4">
+        <div class="party-panel w-full p-5 text-center">
+          <h2 class="text-2xl font-black text-pink-600 mb-1" data-t="familyCodeTitle">Kod Keluarga</h2>
+          <p class="text-xs font-medium text-slate-500 mb-4" data-t="familyCodeDesc">
+            Masukkan kod keluarga anda di sini (pilihan).
+          </p>
+
+          <div class="party-card-inner p-4 text-left mb-4">
+            <input type="text" id="input-family-code" class="w-full px-4 py-2.5 rounded-xl border border-pink-200 bg-white font-bold text-center tracking-widest text-slate-800 outline-none focus:ring-2 focus:ring-pink-400" placeholder="Contoh: KK-7890" />
+          </div>
+
+          <button id="btn-save-family" class="party-btn btn-pink py-2.5 text-sm font-black w-full" data-t="save">
+            Simpan
+          </button>
+        </div>
+      </section>
+
+      <!-- SCREEN 9: COLLECTION (Visual Party Assets Showcase) -->
+      <section id="screen-collection" class="hidden w-full max-w-lg flex flex-col items-center px-3">
+        <div class="party-panel w-full p-4 sm:p-5 text-center max-h-[82vh] flex flex-col">
+          <h2 class="text-2xl font-black text-pink-600 mb-0.5" data-t="collectionTitle">Koleksi Parti</h2>
+          <p class="text-xs font-semibold text-slate-500 mb-3" data-t="collectionIntro">Semua reka bentuk belon dan hiasan parti hari lahir yang comel!</p>
+
+          <div id="collection-grid" class="flex-1 overflow-y-auto grid grid-cols-3 sm:grid-cols-4 gap-2.5 p-2 bg-pink-50/50 rounded-2xl border border-pink-100">
+            <!-- Dynamic Collection items injected here -->
+          </div>
+
+          <button class="nav-return-btn party-btn btn-white py-2 text-xs font-bold w-full mt-3" data-t="btnBack">
+            Kembali
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MANDATORY UNCHANGED FOOTER -->
+    <footer class="w-full text-center py-1 z-20 pointer-events-none">
+      <p class="text-[11px] sm:text-xs font-extrabold tracking-wide text-pink-800/80 drop-shadow-sm">
+        Kinder Klub | All Rights Reserved
+      </p>
+    </footer>
+
+  </div>
+
+  <script>
+    // Letters Pool (A - Z Latin uppercase standard for preschool BM & EN)
+    const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+    // Initialize Mascot on screens
+    function renderMascots() {
+      const homeBox = document.getElementById("home-mascot-box");
+      if (homeBox) homeBox.innerHTML = getPartyMascotSVG("idle", 140);
+
+      const avatarBox = document.getElementById("mascot-prompt-avatar");
+      if (avatarBox) avatarBox.innerHTML = getPartyMascotSVG("happy", 40);
+
+      const demoBox = document.getElementById("instructions-demo-balloon");
+      if (demoBox) demoBox.innerHTML = createHeliumBalloonSVG({ letter: "A", shape: "heart", size: 90 });
+
+      const resultBox = document.getElementById("result-mascot-box");
+      if (resultBox) resultBox.innerHTML = getPartyMascotSVG("celebrate", 96);
+    }
+
+    // Language Text Translation Engine
+    function setLanguage(lang) {
+      state.lang = lang;
+      savedData.lang = lang;
+      persistData();
+
+      document.getElementById("lang-btn-ms").className = lang === "ms" 
+        ? "px-2.5 py-1 rounded-full text-xs font-black bg-pink-500 text-white shadow-sm"
+        : "px-2.5 py-1 rounded-full text-xs font-black text-slate-600 hover:text-pink-600";
+      
+      document.getElementById("lang-btn-en").className = lang === "en" 
+        ? "px-2.5 py-1 rounded-full text-xs font-black bg-pink-500 text-white shadow-sm"
+        : "px-2.5 py-1 rounded-full text-xs font-black text-slate-600 hover:text-pink-600";
+
+      // Translate all elements with data-t attribute
+      document.querySelectorAll("[data-t]").forEach(el => {
+        const key = el.getAttribute("data-t");
+        if (I18N[lang][key]) {
+          el.textContent = I18N[lang][key];
+        }
+      });
+
+      // Update placeholders
+      document.getElementById("input-family-code").placeholder = I18N[lang].familyCodePlaceholder;
+      document.getElementById("input-student-name").placeholder = I18N[lang].studentNamePlaceholder;
+
+      // Update active question prompt if in gameplay
+      if (state.currentScreen === "gameplay" && state.currentTaskData) {
+        updatePromptText();
+      }
+    }
+
+    // Switch Visible Screen
+    function showScreen(screenId) {
+      state.currentScreen = screenId;
+      PartyAudio.tap();
+
+      const screens = [
+        "home", "session", "instructions", "gameplay", 
+        "result", "profile", "student", "family", "collection"
+      ];
+
+      screens.forEach(s => {
+        const el = document.getElementById(`screen-${s}`);
+        if (el) el.classList.add("hidden");
+      });
+
+      const activeEl = document.getElementById(`screen-${screenId}`);
+      if (activeEl) activeEl.classList.remove("hidden");
+
+      // Header visibility controls
+      const backBtn = document.getElementById("nav-back-btn");
+      const statusPill = document.getElementById("gameplay-status-bar");
+
+      if (screenId === "home") {
+        backBtn.classList.add("hidden");
+        statusPill.classList.add("hidden");
+      } else if (screenId === "gameplay") {
+        backBtn.classList.remove("hidden");
+        statusPill.classList.remove("hidden");
+      } else {
+        backBtn.classList.remove("hidden");
+        statusPill.classList.add("hidden");
+      }
+
+      // Populate screen specific data
+      if (screenId === "profile") updateProfileUI();
+      if (screenId === "collection") populateCollectionUI();
+    }
+
+    // Profile & Storage UI synchronization
+    function updateProfileUI() {
+      document.getElementById("stat-val-games").textContent = savedData.gamesPlayed;
+      document.getElementById("stat-val-best").textContent = savedData.bestScore;
+      document.getElementById("stat-val-questions").textContent = savedData.questionsAnswered;
+      
+      const acc = savedData.questionsAnswered > 0 
+        ? Math.round((savedData.correctAnswers / savedData.questionsAnswered) * 100) 
+        : 100;
+      document.getElementById("stat-val-acc").textContent = `${acc}%`;
+
+      const recentList = document.getElementById("profile-recent-list");
+      if (savedData.recentActivity && savedData.recentActivity.length > 0) {
+        recentList.innerHTML = savedData.recentActivity.map(act => `
+          <div class="py-1 border-b border-slate-100 flex justify-between">
+            <span>${act.desc}</span>
+            <span class="font-bold text-pink-600">+${act.score}</span>
+          </div>
+        `).join("");
+      } else {
+        recentList.innerHTML = `<span data-t="statNoActivity">${I18N[state.lang].statNoActivity}</span>`;
+      }
+
+      document.getElementById("input-student-name").value = savedData.studentName || "";
+      document.getElementById("select-student-age").value = savedData.studentAge || "";
+      document.getElementById("input-family-code").value = savedData.familyCode || "";
+    }
+
+    // Helper: Pick random element
+    function pickRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Helper: Shuffle array
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // Display brief friendly toast
+    function showFeedbackToast(text, isPositive = true) {
+      const toast = document.getElementById("feedback-toast");
+      toast.textContent = text;
+      toast.className = isPositive
+        ? "opacity-100 transition-opacity duration-300 pointer-events-none z-30 mb-2 px-5 py-1.5 rounded-full bg-white/95 border-2 border-emerald-400 shadow-md font-black text-emerald-600 text-sm"
+        : "opacity-100 transition-opacity duration-300 pointer-events-none z-30 mb-2 px-5 py-1.5 rounded-full bg-white/95 border-2 border-pink-400 shadow-md font-black text-pink-600 text-sm";
+      
+      setTimeout(() => {
+        toast.classList.remove("opacity-100");
+        toast.classList.add("opacity-0");
+      }, 1000);
+    }
+
+    // Pop Particles Explosion
+    function spawnPopBurstParticles(x, y) {
+      const container = document.getElementById("gameplay-stage");
+      const colors = ["#FF4081", "#FFD54F", "#00E676", "#00B0FF", "#B388FF"];
+      
+      for (let i = 0; i < 12; i++) {
+        const star = document.createElement("div");
+        star.className = "particle-star";
+        const angle = (i / 12) * Math.PI * 2;
+        const dist = 50 + Math.random() * 55;
+        const tx = Math.cos(angle) * dist + "px";
+        const ty = Math.sin(angle) * dist + "px";
+        const tr = (Math.random() * 360) + "deg";
+
+        star.style.setProperty("--tx", tx);
+        star.style.setProperty("--ty", ty);
+        star.style.setProperty("--tr", tr);
+        star.style.left = `${x}px`;
+        star.style.top = `${y}px`;
+
+        star.innerHTML = `
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="${pickRandom(colors)}">
+            <polygon points="12 2 15 8 22 9 17 14 18 21 12 17 6 21 7 14 2 9 9 8"/>
+          </svg>
+        `;
+        container.appendChild(star);
+
+        setTimeout(() => star.remove(), 900);
+      }
+    }
+
+    function generateNextTask() {
+      // Clear gameplay stage & reset connecting paths
+      const stage = document.getElementById("gameplay-stage");
+      stage.innerHTML = `<svg id="drag-connect-svg-overlay" class="absolute inset-0 w-full h-full pointer-events-none z-10" xmlns="http://www.w3.org/2000/svg"></svg>`;
+      
+      document.getElementById("hunt-progress-chip").classList.add("hidden");
+
+      // Check session limit
+      if (state.currentQuestionIndex >= state.totalQuestions && state.totalQuestions !== Infinity) {
+        finishGameSession();
+        return;
+      }
+
+      state.currentQuestionIndex++;
+      updateStatusHeader();
+
+      // Variations: 'find', 'match', 'order', 'missing', 'drag', 'hunt'
+      const modes = ["find", "match", "order", "missing", "drag", "hunt"];
+      state.currentGameMode = pickRandom(modes);
+
+      // Pick target letter (never immediate repeat)
+      let availableLetters = ALPHABET.filter(l => l !== state.recentLetter);
+      const targetLetter = pickRandom(availableLetters);
+      state.recentLetter = targetLetter;
+
+      // Distractors pool
+      const otherLetters = ALPHABET.filter(l => l !== targetLetter);
+
+      state.currentTaskData = {
+        target: targetLetter,
+        mode: state.currentGameMode,
+        completed: false
+      };
+
+      updatePromptText();
+
+      // Dispatch generator
+      switch (state.currentGameMode) {
+        case "find":
+          setupVariationFind(targetLetter, otherLetters);
+          break;
+        case "match":
+          setupVariationMatch(targetLetter, otherLetters);
+          break;
+        case "order":
+          setupVariationOrder();
+          break;
+        case "missing":
+          setupVariationMissing();
+          break;
+        case "drag":
+          setupVariationDragConnect(targetLetter, otherLetters);
+          break;
+        case "hunt":
+          setupVariationHunt(targetLetter, otherLetters);
+          break;
+      }
+    }
+
+    function updatePromptText() {
+      const promptMain = document.getElementById("prompt-main-text");
+      const promptTarget = document.getElementById("prompt-target-letter");
+      const t = I18N[state.lang];
+
+      if (!state.currentTaskData) return;
+
+      const letter = state.currentTaskData.target;
+
+      switch (state.currentGameMode) {
+        case "find":
+          promptMain.textContent = t.findLetterPrompt;
+          promptTarget.textContent = letter;
+          promptTarget.classList.remove("hidden");
+          break;
+        case "match":
+          promptMain.textContent = t.matchLetterPrompt;
+          promptTarget.textContent = letter;
+          promptTarget.classList.remove("hidden");
+          break;
+        case "order":
+          promptMain.textContent = t.orderLettersPrompt;
+          promptTarget.classList.add("hidden");
+          break;
+        case "missing":
+          promptMain.textContent = t.missingLetterPrompt;
+          promptTarget.classList.add("hidden");
+          break;
+        case "drag":
+          promptMain.textContent = t.dragConnectPrompt;
+          promptTarget.textContent = letter;
+          promptTarget.classList.remove("hidden");
+          break;
+        case "hunt":
+          promptMain.textContent = `${t.huntPrompt} ${letter}!`;
+          promptTarget.classList.add("hidden");
+          break;
+      }
+    }
+
+    function updateStatusHeader() {
+      document.getElementById("current-score-text").textContent = state.score;
+      const progressText = state.totalQuestions === Infinity
+        ? `${state.currentQuestionIndex}`
+        : `${state.currentQuestionIndex} / ${state.totalQuestions}`;
+      document.getElementById("question-progress-text").textContent = progressText;
+    }
+
+    // Award Points & Trigger Mascot Celebration
+    function handleCorrectAnswer(celebrationCoord = null) {
+      if (state.currentTaskData.completed) return;
+      state.currentTaskData.completed = true;
+
+      state.score += 10;
+      state.correctCount++;
+      state.totalAnswerAttempts++;
+      updateStatusHeader();
+
+      PartyAudio.celebrate();
+
+      // Show mascot celebration
+      const avatarBox = document.getElementById("mascot-prompt-avatar");
+      avatarBox.innerHTML = getPartyMascotSVG("celebrate", 40);
+
+      showFeedbackToast(state.lang === "ms" ? "Hebat! +10" : "Awesome! +10", true);
+
+      // Auto advance after delightful preschool celebration
+      setTimeout(() => {
+        avatarBox.innerHTML = getPartyMascotSVG("idle", 40);
+        generateNextTask();
+      }, 1300);
+    }
+
+    // Friendly feedback for wrong selection -> Terus beralih ke soalan seterusnya
+    function handleFriendlyMistake(element) {
+      if (state.currentTaskData && state.currentTaskData.completed) return;
+      if (state.currentTaskData) state.currentTaskData.completed = true;
+
+      state.totalAnswerAttempts++;
+      PartyAudio.wobble();
+
+      if (element) {
+        element.classList.add("wobble-friendly");
+      }
+
+      const avatarBox = document.getElementById("mascot-prompt-avatar");
+      if (avatarBox) avatarBox.innerHTML = getPartyMascotSVG("wobble", 40);
+
+      // Paparkan maklum balas galakan lembut
+      showFeedbackToast(state.lang === "ms" ? "Tak apa, soalan seterusnya!" : "Good try, next question!", false);
+
+      // Terus pergi ke soalan seterusnya selepas maklum balas pantas (750ms)
+      setTimeout(() => {
+        if (avatarBox) avatarBox.innerHTML = getPartyMascotSVG("idle", 40);
+        generateNextTask();
+      }, 750);
+    }
+
+    function setupVariationFind(targetLetter, otherLetters) {
+      const stage = document.getElementById("gameplay-stage");
+      const distractors = shuffleArray(otherLetters).slice(0, 3);
+      const letters = shuffleArray([targetLetter, ...distractors]);
+
+      const container = document.createElement("div");
+      container.className = "w-full max-w-md h-full flex flex-wrap items-center justify-around p-4";
+
+      letters.forEach((char, idx) => {
+        const balloonWrap = document.createElement("div");
+        balloonWrap.className = `cursor-pointer transition-transform transform hover:scale-105 ${idx % 2 === 0 ? "balloon-float-1" : "balloon-float-2"}`;
+        balloonWrap.style.animationDelay = `${idx * 0.4}s`;
+
+        const palette = pickRandom(BALLOON_PALETTES);
+        const shape = pickRandom(BALLOON_SHAPES);
+
+        balloonWrap.innerHTML = createHeliumBalloonSVG({ letter: char, shape: shape, palette: palette, size: 105 });
+
+        balloonWrap.addEventListener("pointerdown", (e) => {
+          if (state.currentTaskData.completed) return;
+          if (char === targetLetter) {
+            PartyAudio.pop();
+            const rect = balloonWrap.getBoundingClientRect();
+            spawnPopBurstParticles(rect.left + rect.width / 2, rect.top + rect.height / 3);
+            balloonWrap.classList.add("balloon-popping");
+            handleCorrectAnswer();
+          } else {
+            handleFriendlyMistake(balloonWrap);
+          }
+        });
+
+        container.appendChild(balloonWrap);
+      });
+
+      stage.appendChild(container);
+    }
+
+    function setupVariationMatch(targetLetter, otherLetters) {
+      const stage = document.getElementById("gameplay-stage");
+      const distractors = shuffleArray(otherLetters).slice(0, 2);
+      const choices = shuffleArray([targetLetter, ...distractors]);
+
+      const container = document.createElement("div");
+      container.className = "w-full max-w-lg h-full flex items-center justify-around px-2";
+
+      // Target Letter Balloon (Left)
+      const targetWrap = document.createElement("div");
+      targetWrap.className = "balloon-float-1 flex flex-col items-center";
+      targetWrap.innerHTML = createHeliumBalloonSVG({
+        letter: targetLetter,
+        shape: "round",
+        palette: BALLOON_PALETTES[0],
+        size: 115
+      });
+      container.appendChild(targetWrap);
+
+      // Choices (Right)
+      const choicesCol = document.createElement("div");
+      choicesCol.className = "flex flex-col gap-3";
+
+      choices.forEach((char, idx) => {
+        const item = document.createElement("div");
+        item.className = `cursor-pointer transition-transform transform hover:scale-105 ${idx % 2 === 0 ? "balloon-float-2" : "balloon-float-1"}`;
+        item.innerHTML = createHeliumBalloonSVG({
+          letter: char,
+          shape: pickRandom(BALLOON_SHAPES),
+          palette: BALLOON_PALETTES[(idx + 2) % BALLOON_PALETTES.length],
+          size: 92
+        });
+
+        item.addEventListener("pointerdown", () => {
+          if (state.currentTaskData.completed) return;
+          if (char === targetLetter) {
+            PartyAudio.pop();
+            const rect = item.getBoundingClientRect();
+            spawnPopBurstParticles(rect.left + rect.width / 2, rect.top + rect.height / 3);
+            item.classList.add("balloon-popping");
+            handleCorrectAnswer();
+          } else {
+            handleFriendlyMistake(item);
+          }
+        });
+
+        choicesCol.appendChild(item);
+      });
+
+      container.appendChild(choicesCol);
+      stage.appendChild(container);
+    }
+
+    function setupVariationOrder() {
+      const stage = document.getElementById("gameplay-stage");
+      
+      // Pick 3 consecutive letters (e.g. A-B-C, B-C-D, C-D-E, etc.)
+      const startIndex = Math.floor(Math.random() * 22);
+      const correctSequence = [ALPHABET[startIndex], ALPHABET[startIndex + 1], ALPHABET[startIndex + 2]];
+      const shuffled = shuffleArray([...correctSequence]);
+
+      let userSequence = [];
+
+      const container = document.createElement("div");
+      container.className = "w-full max-w-md h-full flex flex-col items-center justify-center gap-4";
+
+      // Target Slots
+      const slotsContainer = document.createElement("div");
+      slotsContainer.className = "flex gap-3 justify-center";
+
+      const slotElements = [];
+      for (let i = 0; i < 3; i++) {
+        const slot = document.createElement("div");
+        slot.className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-3 border-dashed border-pink-300 bg-white/70 flex items-center justify-center text-2xl font-black text-pink-300 shadow-inner";
+        slot.textContent = "?";
+        slotsContainer.appendChild(slot);
+        slotElements.push(slot);
+      }
+      container.appendChild(slotsContainer);
+
+      // Draggable / Tappable Balloon Choices
+      const choicesContainer = document.createElement("div");
+      choicesContainer.className = "flex gap-3 justify-center";
+
+      shuffled.forEach((char, idx) => {
+        const balloonWrap = document.createElement("div");
+        balloonWrap.className = "cursor-pointer balloon-float-1 transition-all transform hover:scale-105";
+        balloonWrap.innerHTML = createHeliumBalloonSVG({
+          letter: char,
+          shape: pickRandom(["round", "oval", "heart"]),
+          palette: BALLOON_PALETTES[(startIndex + idx) % BALLOON_PALETTES.length],
+          size: 88
+        });
+
+        // Pointer tap sequence builder
+        balloonWrap.addEventListener("pointerdown", () => {
+          if (state.currentTaskData.completed || balloonWrap.dataset.used === "true") return;
+
+          PartyAudio.tap();
+          userSequence.push(char);
+          balloonWrap.dataset.used = "true";
+          balloonWrap.style.opacity = "0.35";
+          balloonWrap.style.pointerEvents = "none";
+
+          const currentSlotIndex = userSequence.length - 1;
+          slotElements[currentSlotIndex].textContent = char;
+          slotElements[currentSlotIndex].className = "w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-3 border-solid border-pink-400 bg-white flex items-center justify-center text-3xl font-black text-pink-600 shadow-md";
+
+          // If filled all 3 slots, verify alphabetical order
+          if (userSequence.length === 3) {
+            const isCorrect = userSequence.join("") === correctSequence.join("");
+            if (isCorrect) {
+              handleCorrectAnswer();
+            } else {
+              // Jika salah susunan, terus ke soalan seterusnya
+              handleFriendlyMistake(slotsContainer);
+            }
+          }
+        });
+
+        choicesContainer.appendChild(balloonWrap);
+      });
+
+      container.appendChild(choicesContainer);
+      stage.appendChild(container);
+    }
+
+    function setupVariationMissing() {
+      const stage = document.getElementById("gameplay-stage");
+
+      // e.g. A - B - _ - D
+      const startIdx = Math.floor(Math.random() * 22);
+      const fullSeq = [ALPHABET[startIdx], ALPHABET[startIdx + 1], ALPHABET[startIdx + 2], ALPHABET[startIdx + 3]];
+      const missingIndex = 2; // Missing slot
+      const missingLetter = fullSeq[missingIndex];
+
+      const distractors = shuffleArray(ALPHABET.filter(l => !fullSeq.includes(l))).slice(0, 2);
+      const choices = shuffleArray([missingLetter, ...distractors]);
+
+      const container = document.createElement("div");
+      container.className = "w-full max-w-md h-full flex flex-col items-center justify-center gap-5";
+
+      // Sequence Row
+      const seqRow = document.createElement("div");
+      seqRow.className = "flex items-center gap-2 sm:gap-3 bg-white/90 p-3 sm:p-4 rounded-3xl border-2 border-pink-200 shadow-md";
+
+      fullSeq.forEach((char, idx) => {
+        if (idx === missingIndex) {
+          const emptySlot = document.createElement("div");
+          emptySlot.id = "missing-target-slot";
+          emptySlot.className = "w-14 h-16 sm:w-16 sm:h-20 rounded-2xl border-3 border-dashed border-pink-400 bg-pink-50 flex items-center justify-center text-2xl font-black text-pink-400";
+          emptySlot.textContent = "_";
+          seqRow.appendChild(emptySlot);
+        } else {
+          const filled = document.createElement("div");
+          filled.className = "w-14 h-16 sm:w-16 sm:h-20 rounded-2xl bg-gradient-to-b from-pink-400 to-pink-500 text-white flex items-center justify-center text-2xl sm:text-3xl font-black shadow-sm";
+          filled.textContent = char;
+          seqRow.appendChild(filled);
+        }
+      });
+      container.appendChild(seqRow);
+
+      // Choices Balloons
+      const choicesRow = document.createElement("div");
+      choicesRow.className = "flex gap-3 justify-center";
+
+      choices.forEach((char, idx) => {
+        const balloonWrap = document.createElement("div");
+        balloonWrap.className = "cursor-pointer balloon-float-1 transition-transform transform hover:scale-105";
+        balloonWrap.innerHTML = createHeliumBalloonSVG({
+          letter: char,
+          shape: pickRandom(["round", "star", "flower"]),
+          palette: BALLOON_PALETTES[(idx + 4) % BALLOON_PALETTES.length],
+          size: 94
+        });
+
+        balloonWrap.addEventListener("pointerdown", () => {
+          if (state.currentTaskData.completed) return;
+          if (char === missingLetter) {
+            const slot = document.getElementById("missing-target-slot");
+            slot.textContent = char;
+            slot.className = "w-14 h-16 sm:w-16 sm:h-20 rounded-2xl bg-gradient-to-b from-pink-500 to-rose-600 text-white flex items-center justify-center text-2xl sm:text-3xl font-black shadow-md glow-pulse";
+            PartyAudio.pop();
+            balloonWrap.classList.add("balloon-popping");
+            handleCorrectAnswer();
+          } else {
+            handleFriendlyMistake(balloonWrap);
+          }
+        });
+
+        choicesRow.appendChild(balloonWrap);
+      });
+
+      container.appendChild(choicesRow);
+      stage.appendChild(container);
+    }
+
+    function setupVariationDragConnect(targetLetter, otherLetters) {
+      const stage = document.getElementById("gameplay-stage");
+      const overlaySvg = document.getElementById("drag-connect-svg-overlay");
+
+      const distractors = shuffleArray(otherLetters).slice(0, 2);
+      const rightChoices = shuffleArray([targetLetter, ...distractors]);
+
+      const container = document.createElement("div");
+      container.className = "w-full max-w-lg h-full flex items-center justify-between px-3 sm:px-6 relative";
+
+      // Left Source Balloon (Target Letter)
+      const leftCol = document.createElement("div");
+      leftCol.className = "flex flex-col items-center";
+
+      const dragBalloon = document.createElement("div");
+      dragBalloon.className = "cursor-grab active:cursor-grabbing balloon-float-1";
+      dragBalloon.id = "drag-source-balloon";
+      dragBalloon.innerHTML = createHeliumBalloonSVG({
+        letter: targetLetter,
+        shape: "heart",
+        palette: BALLOON_PALETTES[0],
+        size: 110
+      });
+      leftCol.appendChild(dragBalloon);
+      container.appendChild(leftCol);
+
+      // Right Target Balloons
+      const rightCol = document.createElement("div");
+      rightCol.className = "flex flex-col gap-3";
+
+      const targetElements = [];
+
+      rightChoices.forEach((char, idx) => {
+        const targetItem = document.createElement("div");
+        targetItem.className = "cursor-pointer balloon-float-2 transition-transform";
+        targetItem.dataset.char = char;
+        targetItem.innerHTML = createHeliumBalloonSVG({
+          letter: char,
+          shape: pickRandom(["round", "oval", "flower"]),
+          palette: BALLOON_PALETTES[(idx + 3) % BALLOON_PALETTES.length],
+          size: 88
+        });
+        rightCol.appendChild(targetItem);
+        targetElements.push(targetItem);
+
+        // Tap fallback for accessibility
+        targetItem.addEventListener("pointerdown", () => {
+          if (state.currentTaskData.completed) return;
+          if (char === targetLetter) {
+            handleCorrectAnswer();
+          } else {
+            handleFriendlyMistake(targetItem);
+          }
+        });
+      });
+
+      container.appendChild(rightCol);
+      stage.appendChild(container);
+
+      // Genuine Drag-to-Connect using Pointer Events
+      let isDragging = false;
+      let startX = 0, startY = 0;
+      let tempPath = null;
+
+      function getCenter(el) {
+        const rect = el.getBoundingClientRect();
+        const stageRect = stage.getBoundingClientRect();
+        return {
+          x: rect.left + rect.width / 2 - stageRect.left,
+          y: rect.top + rect.height / 2 - stageRect.top
+        };
+      }
+
+      dragBalloon.addEventListener("pointerdown", (e) => {
+        if (state.currentTaskData.completed) return;
+        isDragging = true;
+        dragBalloon.setPointerCapture(e.pointerId);
+
+        const center = getCenter(dragBalloon);
+        startX = center.x;
+        startY = center.y;
+
+        tempPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        tempPath.setAttribute("fill", "none");
+        tempPath.setAttribute("stroke", "#FF4081");
+        tempPath.setAttribute("stroke-width", "5");
+        tempPath.setAttribute("stroke-dasharray", "8,6");
+        tempPath.setAttribute("stroke-linecap", "round");
+        overlaySvg.appendChild(tempPath);
+      });
+
+      dragBalloon.addEventListener("pointermove", (e) => {
+        if (!isDragging || !tempPath) return;
+        const stageRect = stage.getBoundingClientRect();
+        const curX = e.clientX - stageRect.left;
+        const curY = e.clientY - stageRect.top;
+
+        tempPath.setAttribute("d", `M ${startX} ${startY} Q ${(startX + curX)/2} ${startY - 30} ${curX} ${curY}`);
+      });
+
+      function endDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        try { dragBalloon.releasePointerCapture(e.pointerId); } catch(err) {}
+
+        const dropX = e.clientX;
+        const dropY = e.clientY;
+
+        let matched = false;
+        let droppedOnWrong = false;
+        let wrongTargetEl = null;
+
+        targetElements.forEach((targetEl) => {
+          const rect = targetEl.getBoundingClientRect();
+          if (dropX >= rect.left && dropX <= rect.right && dropY >= rect.top && dropY <= rect.bottom) {
+            if (targetEl.dataset.char === targetLetter) {
+              matched = true;
+              // Make permanent connecting line with party animation
+              if (tempPath) {
+                const targetCenter = getCenter(targetEl);
+                tempPath.setAttribute("d", `M ${startX} ${startY} Q ${(startX + targetCenter.x)/2} ${startY - 40} ${targetCenter.x} ${targetCenter.y}`);
+                tempPath.setAttribute("stroke", "#00E676");
+                tempPath.setAttribute("stroke-width", "6");
+                tempPath.removeAttribute("stroke-dasharray");
+              }
+              handleCorrectAnswer();
+            } else {
+              droppedOnWrong = true;
+              wrongTargetEl = targetEl;
+            }
+          }
+        });
+
+        if (!matched) {
+          if (tempPath) tempPath.remove();
+          if (droppedOnWrong) {
+            // Jika ditarik ke belon yang salah, terus pergi ke soalan seterusnya
+            handleFriendlyMistake(wrongTargetEl || dragBalloon);
+          } else {
+            // Jika dilepaskan di ruang kosong, kembalikan posisi belon dengan lembut
+            dragBalloon.classList.add("wobble-friendly");
+            setTimeout(() => dragBalloon.classList.remove("wobble-friendly"), 400);
+          }
+        }
+      }
+
+      dragBalloon.addEventListener("pointerup", endDrag);
+      dragBalloon.addEventListener("pointercancel", endDrag);
+    }
+
+    function setupVariationHunt(targetLetter, otherLetters) {
+      const stage = document.getElementById("gameplay-stage");
+      const huntChip = document.getElementById("hunt-progress-chip");
+      huntChip.classList.remove("hidden");
+
+      const totalTargetBalloons = 3;
+      let foundCount = 0;
+      huntChip.textContent = `0 / ${totalTargetBalloons}`;
+
+      // 3 Targets + 3 Distractors = 6 balloons on screen
+      const distractors = shuffleArray(otherLetters).slice(0, 3);
+      const balloonItems = shuffleArray([
+        { char: targetLetter, isTarget: true },
+        { char: targetLetter, isTarget: true },
+        { char: targetLetter, isTarget: true },
+        { char: distractors[0], isTarget: false },
+        { char: distractors[1], isTarget: false },
+        { char: distractors[2], isTarget: false }
+      ]);
+
+      const container = document.createElement("div");
+      container.className = "w-full max-w-md h-full flex flex-wrap items-center justify-around p-3";
+
+      balloonItems.forEach((item, idx) => {
+        const balloonWrap = document.createElement("div");
+        balloonWrap.className = `cursor-pointer transition-transform transform hover:scale-105 ${idx % 2 === 0 ? "balloon-float-1" : "balloon-float-2"}`;
+        balloonWrap.style.animationDelay = `${idx * 0.35}s`;
+
+        balloonWrap.innerHTML = createHeliumBalloonSVG({
+          letter: item.char,
+          shape: pickRandom(BALLOON_SHAPES),
+          palette: pickRandom(BALLOON_PALETTES),
+          size: 96
+        });
+
+        balloonWrap.addEventListener("pointerdown", () => {
+          if (state.currentTaskData.completed || balloonWrap.dataset.popped === "true") return;
+
+          if (item.isTarget) {
+            balloonWrap.dataset.popped = "true";
+            PartyAudio.pop();
+            const rect = balloonWrap.getBoundingClientRect();
+            spawnPopBurstParticles(rect.left + rect.width / 2, rect.top + rect.height / 3);
+            balloonWrap.classList.add("balloon-popping");
+
+            foundCount++;
+            huntChip.textContent = `${foundCount} / ${totalTargetBalloons}`;
+
+            if (foundCount >= totalTargetBalloons) {
+              handleCorrectAnswer();
+            } else {
+              showFeedbackToast(I18N[state.lang].targetFound, true);
+            }
+          } else {
+            handleFriendlyMistake(balloonWrap);
+          }
+        });
+
+        container.appendChild(balloonWrap);
+      });
+
+      stage.appendChild(container);
+    }
+
+    function finishGameSession() {
+      // Save results
+      savedData.gamesPlayed++;
+      savedData.questionsAnswered += state.totalQuestions === Infinity ? state.currentQuestionIndex : state.totalQuestions;
+      savedData.correctAnswers += state.correctCount;
+      if (state.score > savedData.bestScore) {
+        savedData.bestScore = state.score;
+      }
+
+      // Add to recent activity
+      const sessionName = state.totalQuestions === Infinity 
+        ? (state.lang === "ms" ? "Main Bebas" : "Free Play")
+        : `${state.totalQuestions} ${state.lang === "ms" ? "Soalan" : "Questions"}`;
+      
+      savedData.recentActivity.unshift({
+        desc: `${sessionName} — ${state.score} pts`,
+        score: state.score
+      });
+      if (savedData.recentActivity.length > 5) savedData.recentActivity.pop();
+
+      persistData();
+
+      // Update Result Screen UI
+      document.getElementById("result-score-val").textContent = state.score;
+      document.getElementById("result-correct-val").textContent = state.correctCount;
+      const acc = state.totalAnswerAttempts > 0 
+        ? Math.round((state.correctCount / state.totalAnswerAttempts) * 100) 
+        : 100;
+      document.getElementById("result-acc-val").textContent = `${acc}%`;
+
+      showScreen("result");
+    }
+
+    // Populate Collection Grid Showcase
+    function populateCollectionUI() {
+      const grid = document.getElementById("collection-grid");
+      grid.innerHTML = "";
+
+      const sampleItems = [
+        { name: "Pink Round", shape: "round", palette: BALLOON_PALETTES[0], letter: "A" },
+        { name: "Sweet Heart", shape: "heart", palette: BALLOON_PALETTES[1], letter: "B" },
+        { name: "Party Star", shape: "star", palette: BALLOON_PALETTES[3], letter: "C" },
+        { name: "Spring Flower", shape: "flower", palette: BALLOON_PALETTES[4], letter: "D" },
+        { name: "Sunny Cloud", shape: "cloud", palette: BALLOON_PALETTES[5], letter: "E" },
+        { name: "Party Cupcake", shape: "cupcake", palette: BALLOON_PALETTES[6], letter: "F" },
+        { name: "Lime Balloon", shape: "oval", palette: BALLOON_PALETTES[8], letter: "G" },
+        { name: "Birthday Bear", isMascot: true, name: "Barnaby Bear" }
+      ];
+
+      sampleItems.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "flex flex-col items-center bg-white p-2.5 rounded-2xl border border-pink-100 shadow-sm";
+
+        if (item.isMascot) {
+          card.innerHTML = `
+            <div class="w-16 h-16 flex items-center justify-center">${getPartyMascotSVG("celebrate", 56)}</div>
+            <span class="text-[11px] font-bold text-pink-600 mt-1">${item.name}</span>
+          `;
+        } else {
+          card.innerHTML = `
+            <div class="w-16 h-16 flex items-center justify-center">
+              ${createHeliumBalloonSVG({ letter: item.letter, shape: item.shape, palette: item.palette, size: 52, stringLength: 30 })}
+            </div>
+            <span class="text-[11px] font-bold text-slate-700 mt-1">${item.name}</span>
+          `;
+        }
+        grid.appendChild(card);
+      });
+    }
+
+    function setupEventListeners() {
+      // Audio trigger on first user gesture
+      window.addEventListener("pointerdown", () => PartyAudio.init(), { once: true });
+
+      // Language Switchers
+      document.getElementById("lang-btn-ms").addEventListener("click", () => setLanguage("ms"));
+      document.getElementById("lang-btn-en").addEventListener("click", () => setLanguage("en"));
+
+      // Navigation Back Button
+      document.getElementById("nav-back-btn").addEventListener("click", () => {
+        if (state.currentScreen === "gameplay") {
+          showScreen("session");
+        } else {
+          showScreen("home");
+        }
+      });
+
+      // Quick Help Button
+      document.getElementById("btn-quick-help").addEventListener("click", () => showScreen("instructions"));
+
+      // Home Buttons
+      document.getElementById("btn-home-start").addEventListener("click", () => showScreen("session"));
+      document.getElementById("btn-home-profile").addEventListener("click", () => showScreen("profile"));
+      document.getElementById("btn-home-family").addEventListener("click", () => showScreen("family"));
+      document.getElementById("btn-home-student").addEventListener("click", () => showScreen("student"));
+      document.getElementById("btn-home-collection").addEventListener("click", () => showScreen("collection"));
+
+      // Session Selection Buttons
+      document.querySelectorAll(".session-select-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const count = btn.dataset.count;
+          state.totalQuestions = count === "Infinity" ? Infinity : parseInt(count, 10);
+          state.score = 0;
+          state.currentQuestionIndex = 0;
+          state.correctCount = 0;
+          state.totalAnswerAttempts = 0;
+          showScreen("gameplay");
+          generateNextTask();
+        });
+      });
+
+      // Instructions Screen Play Button
+      document.getElementById("btn-instructions-play").addEventListener("click", () => showScreen("session"));
+
+      // Result Screen Buttons
+      document.getElementById("btn-result-replay").addEventListener("click", () => {
+        state.score = 0;
+        state.currentQuestionIndex = 0;
+        state.correctCount = 0;
+        state.totalAnswerAttempts = 0;
+        showScreen("gameplay");
+        generateNextTask();
+      });
+      document.getElementById("btn-result-home").addEventListener("click", () => showScreen("home"));
+
+      // Return Buttons (Generic Back in cards)
+      document.querySelectorAll(".nav-return-btn").forEach(btn => {
+        btn.addEventListener("click", () => showScreen("home"));
+      });
+
+      // Student Profile Save
+      document.getElementById("btn-save-student").addEventListener("click", () => {
+        savedData.studentName = document.getElementById("input-student-name").value.trim();
+        savedData.studentAge = document.getElementById("select-student-age").value;
+        persistData();
+        PartyAudio.celebrate();
+        showScreen("home");
+      });
+
+      // Family Code Save
+      document.getElementById("btn-save-family").addEventListener("click", () => {
+        savedData.familyCode = document.getElementById("input-family-code").value.trim();
+        persistData();
+        PartyAudio.celebrate();
+        showScreen("home");
+      });
+    }
+
+    // Initialize application when DOM is ready
+    window.addEventListener("DOMContentLoaded", () => {
+      renderMascots();
+      setLanguage(state.lang);
+      setupEventListeners();
+      showScreen("home");
+    });
+  </script>
+</body>
+</html>
